@@ -13,127 +13,132 @@ const int PHASE_RED=2;
 const int PHASE_GREEN=3;
 const int PHASE_FINISH=4;
 
-const int PHASE_DEACTIVATE_T=5;
-const int PHASE_ORANGE_T=6;
-const int PHASE_RED_T=7;
-const int PHASE_GREEN_T=8;
-const int PHASE_FINISH_T=9;
 
 
-module a
-	s_a: [0..5] init PHASE_ORANGE;
-	[c_f] s_a=PHASE_DEACTIVATE & s_c=PHASE_FINISH -> (s_a'=PHASE_ORANGE);
-	[p_b_t] s_a=PHASE_ORANGE -> (s_a'=PHASE_RED_T);
-	[a_r] s_a=PHASE_RED_T -> (s_a'=PHASE_RED);
-	[p_b_t] s_a=PHASE_RED -> (s_a'=PHASE_GREEN_T);
-	[a_g] s_a=PHASE_GREEN_T -> (s_a'=PHASE_GREEN);
-	[p_b_t] s_a=PHASE_GREEN -> (s_a'=PHASE_FINISH_T);
-	[] s_a=PHASE_FINISH_T -> (s_a'=PHASE_FINISH);
-	[a_f] s_a=PHASE_FINISH -> (s_a'=PHASE_DEACTIVATE);
+module phase_1
+	s_phase_1: [0..5] init PHASE_ORANGE;
+	[p3_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH -> (s_phase_1'=PHASE_ORANGE);
+	[p1_red] s_phase_1=PHASE_ORANGE -> (s_phase_1'=PHASE_RED);
+	[p1_green] s_phase_1=PHASE_RED -> (s_phase_1'=PHASE_GREEN);
+	[] s_phase_1=PHASE_GREEN -> (s_phase_1'=PHASE_FINISH);
+	[p1_finish] s_phase_1=PHASE_FINISH -> (s_phase_1'=PHASE_DEACTIVATE);
 endmodule
 
-module b
-	s_b: [0..5] init PHASE_DEACTIVATE;
-	[a_f] s_b=PHASE_DEACTIVATE & s_a=PHASE_FINISH & s_pb1=PB_DEACTIVATE -> (s_b'=PHASE_ORANGE);
-	[a_f] s_b=PHASE_DEACTIVATE & s_a=PHASE_FINISH & s_pb1=PB_ACTIVATE -> (s_b'=PHASE_DEACTIVATE);
-	[b_r] s_b=PHASE_ORANGE -> (s_b'=PHASE_RED);
-	[b_g] s_b=PHASE_RED -> (s_b'=PHASE_GREEN);
-	[] s_b=PHASE_GREEN -> (s_b'=PHASE_FINISH);
-	[b_f] s_b=PHASE_FINISH -> (s_b'=PHASE_DEACTIVATE);
+module phase_2
+	s_phase_2: [0..5] init PHASE_DEACTIVATE;
+	[p1_finish] s_phase_2=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & !s_pb3 & !(s_pb2 & s_pb1) -> (s_phase_2'=PHASE_ORANGE);
+	[p1_finish] !(s_phase_2=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & !s_pb3 & !(s_pb2 & s_pb1)) -> (s_phase_2'=PHASE_DEACTIVATE);
+	[p2_red] s_phase_2=PHASE_ORANGE -> (s_phase_2'=PHASE_RED);
+	[p2_green] s_phase_2=PHASE_RED -> (s_phase_2'=PHASE_GREEN);
+	[] s_phase_2=PHASE_GREEN -> (s_phase_2'=PHASE_FINISH);
+	[p2_finish] s_phase_2=PHASE_FINISH -> (s_phase_2'=PHASE_DEACTIVATE);
 endmodule
 
-
-module c
-	s_c: [0..5] init PHASE_DEACTIVATE;
-	[b_f] s_c=PHASE_DEACTIVATE & s_b=PHASE_FINISH -> (s_c'=PHASE_ORANGE);
-	[e_f] s_c=PHASE_DEACTIVATE & s_e=PHASE_FINISH -> (s_c'=PHASE_ORANGE);
-	[c_r] s_c=PHASE_ORANGE -> (s_c'=PHASE_RED);
-	[c_g] s_c=PHASE_RED -> (s_c'=PHASE_GREEN);
-	[] s_c=PHASE_GREEN -> (s_c'=PHASE_FINISH);
-	[c_f] s_c=PHASE_FINISH -> (s_c'=PHASE_DEACTIVATE);
+module phase_3
+	// TODO
+	s_phase_3: [0..5] init PHASE_DEACTIVATE;
+	[pXXX_finish] s_phase_3=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH -> (s_phase_3'=PHASE_ORANGE);
+	[pXXX_finish] s_phase_3=PHASE_DEACTIVATE & s_phase_5=PHASE_FINISH -> (s_phase_3'=PHASE_ORANGE);
+	[p3_red] s_phase_3=PHASE_ORANGE -> (s_phase_3'=PHASE_RED);
+	[p3_green] s_phase_3=PHASE_RED -> (s_phase_3'=PHASE_GREEN);
+	[] s_phase_3=PHASE_GREEN -> (s_phase_3'=PHASE_FINISH);
+	[p3_finish] s_phase_3=PHASE_FINISH -> (s_phase_3'=PHASE_DEACTIVATE);
 endmodule 
 
-module e
-	s_e: [0..5] init PHASE_DEACTIVATE;
-	[a_f] s_e=PHASE_DEACTIVATE & s_a=PHASE_FINISH & s_pb1=PB_ACTIVATE-> (s_e'=PHASE_ORANGE);
-	[a_f] s_e=PHASE_DEACTIVATE & s_a=PHASE_FINISH & s_pb1=PB_DEACTIVATE-> (s_e'=PHASE_DEACTIVATE);
-	[e_r] s_e=PHASE_ORANGE -> (s_e'=PHASE_RED);
-	[e_g] s_e=PHASE_RED -> (s_e'=PHASE_GREEN);
-	[] s_e=PHASE_GREEN -> (s_e'=PHASE_FINISH);
-	[e_f] s_e=PHASE_FINISH -> (s_e'=PHASE_DEACTIVATE);
+module phase_5
+	// TODO
+	s_phase_5: [0..5] init PHASE_DEACTIVATE;
+	[pXXX_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & s_pb1=PB_ACTIVATE-> (s_phase_5'=PHASE_ORANGE);
+	[pXXX_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & s_pb1=PB_DEACTIVATE-> (s_phase_5'=PHASE_DEACTIVATE);
+	[p5_red] s_phase_5=PHASE_ORANGE -> (s_phase_5'=PHASE_RED);
+	[p5_green] s_phase_5=PHASE_RED -> (s_phase_5'=PHASE_GREEN);
+	[] s_phase_5=PHASE_GREEN -> (s_phase_5'=PHASE_FINISH);
+	[p5_finish] s_phase_5=PHASE_FINISH -> (s_phase_5'=PHASE_DEACTIVATE);
 endmodule 
 
 
 module tl1
+	// TODO
 	s_tl1: [0..2] init TL_RED;
-	[a_r] s_tl1=TL_RED -> (s_tl1'=TL_RED);
-	[a_r] s_tl1=TL_GREEN -> (s_tl1'=TL_RED);
-	[c_g] s_tl1=TL_RED -> (s_tl1'=TL_GREEN);
+	[p1_red] s_tl1=TL_RED -> (s_tl1'=TL_RED);
+	[p1_red] s_tl1=TL_GREEN -> (s_tl1'=TL_RED);
+	[p2_green] s_tl1=TL_RED -> (s_tl1'=TL_GREEN);
 endmodule
 
 module tl2
+	// TODO
 	s_tl2: [0..2] init TL_RED;
-	[a_g] s_tl2=TL_RED -> (s_tl2'=TL_GREEN);
-	[a_g] s_tl2=TL_GREEN -> (s_tl2'=TL_GREEN);
-	
-	[c_g] s_tl2=TL_RED -> (s_tl2'=TL_GREEN);
-
-	[b_r] s_tl2=TL_GREEN -> (s_tl2'=TL_RED);
-	[e_r] s_tl2=TL_GREEN -> (s_tl2'=TL_RED);
+	[p1_green] s_tl2=TL_RED -> (s_tl2'=TL_GREEN);
 endmodule
 
 module tl3
+	// TODO
 	s_tl3: [0..2] init TL_RED;
-	[a_g] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
-	[a_g] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
-	[b_g] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
-	[b_g] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
-	[e_g] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
-	[e_g] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
-	[c_r] s_tl3=TL_GREEN -> (s_tl3'=TL_RED);
+	[p1_green] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
+	[p1_green] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
 endmodule
 
 module tl4
+	// TODO
 	s_tl4: [0..2] init TL_RED;
-	[a_g] s_tl4=TL_RED -> (s_tl4'=TL_GREEN);
-	[a_g] s_tl4=TL_GREEN -> (s_tl4'=TL_GREEN);
-	[b_r] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
-	[e_r] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
+	[p1_green] s_tl4=TL_RED -> (s_tl4'=TL_GREEN);
+	[p2_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
 endmodule
 
 module tl5
+	// TODO
 	s_tl5: [0..2] init TL_RED;
-	[b_g] s_tl5=TL_RED -> (s_tl5'=TL_GREEN);
-	[e_g] s_tl5=TL_RED -> (s_tl5'=TL_GREEN);
-
-	[c_r] s_tl5=TL_GREEN -> (s_tl5'=TL_RED);
+	[p1_red] s_tl5=TL_GREEN -> (s_tl5'=TL_RED);
 endmodule
 
 module tl6
+	// TODO
 	s_tl6: [0..2] init TL_RED;
-	[a_r] s_tl6=TL_RED -> (s_tl6'=TL_RED);
-	[a_r] s_tl6=TL_GREEN -> (s_tl6'=TL_RED);
-	
-	[b_g] s_tl6=TL_RED -> (s_tl6'=TL_GREEN);
-	
-	[c_g] s_tl6=TL_RED -> (s_tl6'=TL_GREEN);
-	[c_g] s_tl6=TL_GREEN -> (s_tl6'=TL_GREEN);
-endmodule
+	[p1_green] s_tl6=TL_RED -> (s_tl6'=TL_GREEN);
+	[p1_green] s_tl6=TL_GREEN -> (s_tl6'=TL_GREEN);
 
+	[p2_green] s_tl6=TL_RED -> (s_tl6'=TL_GREEN);
+	[p2_green] s_tl6=TL_GREEN -> (s_tl6'=TL_GREEN);
+endmodule
 
 
 module pl1
+	// TODO
 	s_pl1: [0..2] init TL_RED;
-	[e_g] s_pl1=TL_RED -> (s_pl1'=TL_GREEN);
-	[c_r] s_pl1=TL_GREEN -> (s_pl1'=TL_RED);
-	[c_r] s_pl1=TL_RED -> (s_pl1'=TL_RED);
+	[p1_green] s_pl1=TL_GREEN -> (s_pl1'=TL_RED);
+	[p1_green] s_pl1=TL_RED -> (s_pl1'=TL_RED);
 endmodule
 
+module pl2
+	// TODO
+	s_pl2: [0..2] init TL_RED;
+	[p2_red] s_pl2=TL_GREEN -> (s_pl2'=TL_RED);
+	[p2_red] s_pl2=TL_RED -> (s_pl2'=TL_RED);
+endmodule
+
+module pl3
+	// TODO
+	s_pl3: [0..2] init TL_RED;
+endmodule
+
+
 module pb1
+	// TODO
 	s_pb1: [0..2] init PB_DEACTIVATE;
-	[p_b_t] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
-	[p_b_t] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_ACTIVATE) ;
-	
-	[e_r] s_pb1=PB_ACTIVATE -> (s_pb1'=PB_DEACTIVATE);
-	[e_r] s_pb1=PB_DEACTIVATE -> (s_pb1'=PB_DEACTIVATE);
+	[p1_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
+	[p2_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
+endmodule
+
+module pb2
+	// TODO
+	s_pb2: [0..2] init PB_DEACTIVATE;
+	[p1_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
+	[p2_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
+endmodule
+
+module pb3
+	// TODO
+	s_pb3: [0..2] init PB_DEACTIVATE;
+	[p1_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
+	[p2_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
 endmodule
