@@ -18,7 +18,7 @@ const int PHASE_FINISH=4;
 module phase_1
 	s_phase_1: [0..5] init PHASE_ORANGE;
 	[p3_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & !s_pb2 & !(s_pb1 & s_pb3)  -> (s_phase_1'=PHASE_ORANGE);
-	[p3_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & s_pb2 | (s_pb1 & s_pb3)  -> (s_phase_1'=PHASE_DEACTIVATE);
+	[p3_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & (s_pb2 | (s_pb1 & s_pb3))  -> (s_phase_1'=PHASE_DEACTIVATE);
 	
 	[p6_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_6=PHASE_FINISH & !s_pb2-> (s_phase_1'=PHASE_ORANGE);
 	[p6_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_6=PHASE_FINISH & s_pb2 -> (s_phase_1'=PHASE_DEACTIVATE);
@@ -66,8 +66,7 @@ endmodule
 module phase_4
 	s_phase_4: [0..5] init PHASE_DEACTIVATE;
 	[p3_finish] s_phase_4=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & s_pb2 & (!s_pb1 & !s_pb3) -> (s_phase_4'=PHASE_ORANGE);
-	[p3_finish] s_phase_4=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & !s_pb2
-				-> (s_phase_4'=PHASE_DEACTIVATE);
+	[p3_finish] s_phase_4=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & !s_pb2 | (s_pb1 | s_pb3) -> (s_phase_4'=PHASE_DEACTIVATE);
 
 	[p6_finish] s_phase_4=PHASE_DEACTIVATE & s_phase_6=PHASE_FINISH & s_pb2 & !s_pb3 -> (s_phase_4'=PHASE_ORANGE);
 	[p6_finish] s_phase_4=PHASE_DEACTIVATE & s_phase_6=PHASE_FINISH & !s_pb2 | (s_pb2 & s_pb3)-> (s_phase_4'=PHASE_DEACTIVATE);
@@ -80,8 +79,8 @@ endmodule
 
 module phase_5
 	s_phase_5: [0..5] init PHASE_DEACTIVATE;
-	[p1_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & s_pb3 & !(s_pb2 | s_pb3)-> (s_phase_5'=PHASE_ORANGE);
-	[p1_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & !s_pb3 -> (s_phase_5'=PHASE_DEACTIVATE);
+	[p1_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & s_pb3 & (!s_pb2 & !s_pb1)-> (s_phase_5'=PHASE_ORANGE);
+	[p1_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & !s_pb3 | (s_pb1 | s_pb2)-> (s_phase_5'=PHASE_DEACTIVATE);
 
 	[p4_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_4=PHASE_FINISH & s_pb3 & !s_pb1 -> (s_phase_5'=PHASE_ORANGE);
 	[p4_finish] s_phase_5=PHASE_DEACTIVATE & s_phase_4=PHASE_FINISH & (!s_pb3 | (s_pb3 & s_pb1))  -> (s_phase_5'=PHASE_DEACTIVATE);
@@ -96,7 +95,8 @@ module phase_6
 	// TODO
 	s_phase_6: [0..5] init PHASE_DEACTIVATE;
 	[p2_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & s_pb1 & (!s_pb2 & !s_pb3)-> (s_phase_6'=PHASE_ORANGE);
-	[p2_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & !s_pb1  -> (s_phase_6'=PHASE_DEACTIVATE);
+	[p2_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & !s_pb1 | (s_pb2 | s_pb3)  -> (s_phase_6'=PHASE_DEACTIVATE);
+	// juste !s_pb1 pas suffisant car si on a les 3 pb activées, ici on rentrerait dans aucun des cas
 
 	[p5_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_5=PHASE_FINISH & s_pb1 & !s_pb2 -> (s_phase_6'=PHASE_ORANGE);
 	[p5_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_5=PHASE_FINISH & !s_pb1  -> (s_phase_6'=PHASE_DEACTIVATE);
@@ -152,7 +152,7 @@ module phase_7_3
 	[p7_3_red] s_phase_7_3=PHASE_ORANGE -> (s_phase_7_3'=PHASE_RED);
 	[p7_3_green] s_phase_7_3=PHASE_RED -> (s_phase_7_3'=PHASE_GREEN);
 	[] s_phase_7_3=PHASE_GREEN -> (s_phase_7_3'=PHASE_FINISH);
-	[p7_3_finish] s_phase_7_2=PHASE_FINISH -> (s_phase_7_3'=PHASE_DEACTIVATE);
+	[p7_3_finish] s_phase_7_3=PHASE_FINISH -> (s_phase_7_3'=PHASE_DEACTIVATE);
 endmodule
 
 
@@ -177,6 +177,7 @@ module tl2
 	// TODO
 	s_tl2: [0..2] init TL_RED;
 	[p1_green] s_tl2=TL_RED -> (s_tl2'=TL_GREEN);
+	[p1_green] s_tl2=TL_GREEN -> (s_tl2'=TL_GREEN);
 
 	[p2_green] s_tl2=TL_GREEN -> (s_tl2'=TL_GREEN);		
 	[p2_green] s_tl2=TL_RED -> (s_tl2'=TL_GREEN);
@@ -204,10 +205,13 @@ module tl2
 endmodule
 
 module tl3
-	// TODO
 	s_tl3: [0..2] init TL_RED;
 	[p1_green] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
 	[p1_green] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
+
+	
+	[p2_green] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
+	[p2_green] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
 
 	[p3_green] s_tl3=TL_RED -> (s_tl3'=TL_GREEN);
 	[p3_green] s_tl3=TL_GREEN -> (s_tl3'=TL_GREEN);
@@ -232,10 +236,11 @@ module tl3
 endmodule
 
 module tl4
-	// TODO
 	s_tl4: [0..2] init TL_RED;
 	[p1_green] s_tl4=TL_RED -> (s_tl4'=TL_GREEN);
 	[p2_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
+	[p2_red] s_tl4=TL_RED -> (s_tl4'=TL_RED);
+	
 	[p4_green] s_tl4=TL_RED -> (s_tl4'=TL_GREEN);
 
 	[p5_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
@@ -246,7 +251,6 @@ module tl4
 endmodule
 
 module tl5
-	// TODO
 	s_tl5: [0..2] init TL_RED;
 	[p1_red] s_tl5=TL_GREEN -> (s_tl5'=TL_RED);
 	[p1_red] s_tl5=TL_RED -> (s_tl5'=TL_RED);
@@ -263,7 +267,6 @@ module tl5
 endmodule
 
 module tl6
-	// TODO
 	s_tl6: [0..2] init TL_RED;
 	[p1_green] s_tl6=TL_RED -> (s_tl6'=TL_GREEN);
 	[p1_green] s_tl6=TL_GREEN -> (s_tl6'=TL_GREEN);
@@ -295,10 +298,16 @@ endmodule
 
 
 module pl1
-	// TODO
 	s_pl1: [0..2] init TL_RED;
-	[p1_green] s_pl1=TL_GREEN -> (s_pl1'=TL_RED);
-	[p1_green] s_pl1=TL_RED -> (s_pl1'=TL_RED);
+
+	[p1_red] s_pl1=TL_GREEN -> (s_pl1'=TL_RED); // Apres etre passée en 7_3
+	[p1_red] s_pl1=TL_RED -> (s_pl1'=TL_RED);
+
+	[p2_red] s_pl1=TL_GREEN -> (s_pl1'=TL_RED);
+	[p2_red] s_pl1=TL_RED -> (s_pl1'=TL_RED);
+
+	[p3_red] s_pl1=TL_GREEN -> (s_pl1'=TL_RED);
+	[p3_red] s_pl1=TL_RED -> (s_pl1'=TL_RED);
 
 	[p4_red] s_pl1=TL_RED -> (s_pl1'=TL_RED); // au cas ou y a les pompiers
 	[p4_red] s_pl1=TL_GREEN -> (s_pl1'=TL_RED);
@@ -315,11 +324,18 @@ module pl1
 endmodule
 
 module pl2
-	// TODO
 	s_pl2: [0..2] init TL_RED;
+
+	
+	[p1_red] s_pl2=TL_GREEN -> (s_pl2'=TL_RED); // Apres etre passée en 7_3
+	[p1_red] s_pl2=TL_RED -> (s_pl2'=TL_RED);
+
 	[p2_red] s_pl2=TL_GREEN -> (s_pl2'=TL_RED);
 	[p2_red] s_pl2=TL_RED -> (s_pl2'=TL_RED);
 
+	[p3_red] s_pl2=TL_GREEN -> (s_pl2'=TL_RED);
+	[p3_red] s_pl2=TL_RED -> (s_pl2'=TL_RED);
+	
 	[p4_green] s_pl2=TL_RED -> (s_pl2'=TL_GREEN);
 	[p4_green] s_pl2=TL_GREEN -> (s_pl2'=TL_GREEN);
 
@@ -336,8 +352,14 @@ module pl2
 endmodule
 
 module pl3
-	// TODO
 	s_pl3: [0..2] init TL_RED;
+
+	[p1_red] s_pl3=TL_RED -> (s_pl3'=TL_RED);
+	[p1_red] s_pl3=TL_GREEN -> (s_pl3'=TL_RED);	
+
+	[p2_red] s_pl3=TL_RED -> (s_pl3'=TL_RED);
+	[p2_red] s_pl3=TL_GREEN -> (s_pl3'=TL_RED);	
+
 	[p3_red] s_pl3=TL_RED -> (s_pl3'=TL_RED);
 	[p3_red] s_pl3=TL_GREEN -> (s_pl3'=TL_RED);	
 
@@ -358,7 +380,6 @@ endmodule
 
 
 module pb1
-	// TODO
 	s_pb1: bool init PB_DEACTIVATE;
 	[p1_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
 	[p1_green] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_ACTIVATE);
@@ -392,7 +413,7 @@ module pb2
 	[p2_green] s_pb2=PB_ACTIVATE  -> (s_pb2'=PB_ACTIVATE);
 	
 	[p3_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
-	[p3_green] s_pb3=PB_ACTIVATE  -> (s_pb2'=PB_ACTIVATE);
+	[p3_green] s_pb2=PB_ACTIVATE  -> (s_pb2'=PB_ACTIVATE);
 		
 	[p5_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
 	[p5_green] s_pb2=PB_ACTIVATE  -> (s_pb2'=PB_ACTIVATE);
@@ -413,12 +434,12 @@ module pb2
 endmodule
 
 module pb3
-	// TODO
 	s_pb3: bool init PB_DEACTIVATE;
 	[p1_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
 	[p1_green] s_pb3=PB_ACTIVATE  -> (s_pb3'=PB_ACTIVATE);
 	
 	[p2_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
+	
 	[p3_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
 	[p3_green] s_pb3=PB_ACTIVATE  -> (s_pb3'=PB_ACTIVATE); // Si en phase 2 , pb3 est activé, faut pas le retester en phase 3 ou 6
 
