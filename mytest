@@ -22,6 +22,9 @@ module phase_1
 	
 	[p6_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_6=PHASE_FINISH & !s_pb2-> (s_phase_1'=PHASE_ORANGE);
 	[p6_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_6=PHASE_FINISH & s_pb2 -> (s_phase_1'=PHASE_DEACTIVATE);
+
+	[p7_3_finish] s_phase_1=PHASE_DEACTIVATE & s_phase_7_3=PHASE_FINISH -> (s_phase_1'=PHASE_ORANGE);
+
 	[p1_red] s_phase_1=PHASE_ORANGE -> (s_phase_1'=PHASE_RED);
 	[p1_green] s_phase_1=PHASE_RED -> (s_phase_1'=PHASE_GREEN);
 	[] s_phase_1=PHASE_GREEN -> (s_phase_1'=PHASE_FINISH);
@@ -103,7 +106,6 @@ module phase_6
 endmodule 
 
 module phase_7_1
-	// TODO dire en phase 2 qu elle se lance apres phase_7_1 , couper pushbutton, mettre feux pieton a vert
 	s_phase_7_1: [0..5] init PHASE_DEACTIVATE;
 	[p3_finish] s_phase_7_1=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & ((s_pb1 & s_pb2) || (s_pb2 & s_pb3))-> (s_phase_7_1'=PHASE_ORANGE);
 	[p3_finish] s_phase_7_1=PHASE_DEACTIVATE & s_phase_3=PHASE_FINISH & ((!s_pb1 & !s_pb2) || (!s_pb2 & !s_pb3))-> (s_phase_7_1'=PHASE_DEACTIVATE);
@@ -116,7 +118,6 @@ module phase_7_1
 endmodule 
 
 module phase_7_2
-	//  couper pushbutton, mettre feux pieton a vert et rouge
 	s_phase_7_2: [0..5] init PHASE_DEACTIVATE;
 	[p1_finish] s_phase_7_2=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & ((s_pb1 & s_pb2) || (s_pb2 & s_pb3))-> (s_phase_7_2'=PHASE_ORANGE);
 	[p1_finish] s_phase_7_2=PHASE_DEACTIVATE & s_phase_1=PHASE_FINISH & ((!s_pb1 & !s_pb2) || (!s_pb2 & !s_pb3))-> (s_phase_7_2'=PHASE_DEACTIVATE);
@@ -127,6 +128,18 @@ module phase_7_2
 	[] s_phase_7_2=PHASE_GREEN -> (s_phase_7_2'=PHASE_FINISH);
 	[p7_2_finish] s_phase_7_2=PHASE_FINISH -> (s_phase_7_2'=PHASE_DEACTIVATE);
 endmodule 
+
+module phase_7_3
+	s_phase_7_3: [0..5] init PHASE_DEACTIVATE;
+	[p2_finish] s_phase_7_3=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & ((s_pb1 & s_pb2) || (s_pb2 & s_pb3))-> (s_phase_7_3'=PHASE_ORANGE);
+	[p2_finish] s_phase_7_3=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & ((!s_pb1 & !s_pb2) || (!s_pb2 & !s_pb3))-> (s_phase_7_3'=PHASE_DEACTIVATE);
+	[p5_finish] s_phase_7_3=PHASE_DEACTIVATE & s_phase_5=PHASE_FINISH & ((s_pb1 & s_pb2) || (s_pb2 & s_pb3))-> (s_phase_7_3'=PHASE_ORANGE);
+	[p5_finish] s_phase_7_3=PHASE_DEACTIVATE & s_phase_5=PHASE_FINISH & ((!s_pb1 & !s_pb2) || (!s_pb2 & !s_pb3))-> (s_phase_7_3'=PHASE_DEACTIVATE);
+	[p7_3_red] s_phase_7_3=PHASE_ORANGE -> (s_phase_7_3'=PHASE_RED);
+	[p7_3_green] s_phase_7_2=PHASE_RED -> (s_phase_7_2'=PHASE_GREEN);
+	[] s_phase_7_3=PHASE_GREEN -> (s_phase_7_3'=PHASE_FINISH);
+	[p7_3_finish] s_phase_7_2=PHASE_FINISH -> (s_phase_7_3'=PHASE_DEACTIVATE);
+endmodule
 
 
 module tl1
@@ -144,6 +157,9 @@ module tl1
 
 	[p6_red] s_tl1=TL_RED -> (s_tl1'=TL_RED);
 	[p6_red] s_tl1=TL_GREEN -> (s_tl1'=TL_RED);
+
+	[p7_3_red] s_tl1=TL_RED -> (s_tl1'=TL_RED);
+	[p7_3_red] s_tl1=TL_GREEN -> (s_tl1'=TL_RED);
 endmodule
 
 module tl2
@@ -168,6 +184,12 @@ module tl2
 
 	[p7_1_red] s_tl2=TL_GREEN -> (s_tl2'=TL_RED);		
 	[p7_1_red] s_tl2=TL_RED -> (s_tl2'=TL_RED);	
+
+	[p7_2_red] s_tl2=TL_GREEN -> (s_tl2'=TL_RED);		
+	[p7_2_red] s_tl2=TL_RED -> (s_tl2'=TL_RED);
+
+	[p7_3_red] s_tl2=TL_GREEN -> (s_tl2'=TL_RED);		
+	[p7_3_red] s_tl2=TL_RED -> (s_tl2'=TL_RED);		
 endmodule
 
 module tl3
@@ -190,6 +212,12 @@ module tl3
 
 	[p7_1_red] s_tl3=TL_GREEN -> (s_tl3'=TL_RED);		
 	[p7_1_red] s_tl3=TL_RED -> (s_tl3'=TL_RED);	
+
+	[p7_2_red] s_tl3=TL_GREEN -> (s_tl3'=TL_RED);		
+	[p7_2_red] s_tl3=TL_RED -> (s_tl3'=TL_RED);	
+
+	[p7_3_red] s_tl3=TL_GREEN -> (s_tl3'=TL_RED);		
+	[p7_3_red] s_tl3=TL_RED -> (s_tl3'=TL_RED);	
 endmodule
 
 module tl4
@@ -200,7 +228,10 @@ module tl4
 	[p4_green] s_tl4=TL_RED -> (s_tl4'=TL_GREEN);
 
 	[p5_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
-	[p5_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);	
+	[p5_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
+
+	[p7_2_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);
+	[p7_2_red] s_tl4=TL_GREEN -> (s_tl4'=TL_RED);	
 endmodule
 
 module tl5
@@ -241,7 +272,13 @@ module tl6
 	[p6_red] s_tl6=TL_GREEN -> (s_tl6'=TL_RED);
 
 	[p7_1_red] s_tl6=TL_GREEN -> (s_tl6'=TL_RED);		
-	[p7_1_red] s_tl6=TL_RED -> (s_tl6'=TL_RED);	
+	[p7_1_red] s_tl6=TL_RED -> (s_tl6'=TL_RED);
+
+	[p7_2_red] s_tl6=TL_GREEN -> (s_tl6'=TL_RED);		
+	[p7_2_red] s_tl6=TL_RED -> (s_tl6'=TL_RED);
+
+	[p7_3_red] s_tl6=TL_GREEN -> (s_tl6'=TL_RED);		
+	[p7_3_red] s_tl6=TL_RED -> (s_tl6'=TL_RED);			
 endmodule
 
 
@@ -259,6 +296,10 @@ module pl1
 
 	[p7_1_green] s_pl1=TL_RED -> (s_pl1'=TL_GREEN);
 	[p7_1_green] s_pl1=TL_GREEN -> (s_pl1'=TL_GREEN);
+
+	[p7_2_green] s_pl1=TL_RED -> (s_pl1'=TL_GREEN);
+
+	[p7_3_green] s_pl1=TL_RED -> (s_pl1'=TL_GREEN);
 endmodule
 
 module pl2
@@ -275,6 +316,11 @@ module pl2
 
 	[p7_1_green] s_pl2=TL_RED -> (s_pl2'=TL_GREEN);
 	[p7_1_green] s_pl2=TL_GREEN -> (s_pl2'=TL_GREEN);
+
+	[p7_2_green] s_pl2=TL_RED -> (s_pl2'=TL_GREEN);
+	[p7_2_green] s_pl2=TL_GREEN -> (s_pl2'=TL_GREEN);
+
+	[p7_3_green] s_pl2=TL_RED -> (s_pl2'=TL_GREEN);
 endmodule
 
 module pl3
@@ -291,6 +337,11 @@ module pl3
 
 	[p7_1_green] s_pl3=TL_RED -> (s_pl3'=TL_GREEN);
 	[p7_1_green] s_pl3=TL_GREEN -> (s_pl3'=TL_GREEN);
+
+	[p7_2_green] s_pl3=TL_RED -> (s_pl3'=TL_GREEN);
+
+	[p7_3_green] s_pl3=TL_RED -> (s_pl3'=TL_GREEN);
+	[p7_3_green] s_pl3=TL_GREEN -> (s_pl3'=TL_GREEN);
 endmodule
 
 
@@ -302,10 +353,17 @@ module pb1
 	[p3_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
 	[p4_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
 	[p5_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);
-	[p6_green] s_pb1=PB_DEACTIVATE  -> 0.2: (s_pb1'=PB_ACTIVATE) + 0.8: (s_pb1'=PB_DEACTIVATE);	
+
+	[p6_red] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_DEACTIVATE);
 
 	[p7_1_red] s_pb1=PB_DEACTIVATE  -> (s_pb1'=PB_DEACTIVATE);
-	[p7_1_red] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_DEACTIVATE);	
+	[p7_1_red] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_DEACTIVATE);
+
+	[p7_2_red] s_pb1=PB_DEACTIVATE  -> (s_pb1'=PB_DEACTIVATE);
+	[p7_2_red] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_DEACTIVATE);
+
+	[p7_3_red] s_pb1=PB_DEACTIVATE  -> (s_pb1'=PB_DEACTIVATE);
+	[p7_3_red] s_pb1=PB_ACTIVATE  -> (s_pb1'=PB_DEACTIVATE);	
 endmodule
 
 module pb2
@@ -314,12 +372,20 @@ module pb2
 	[p1_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
 	[p2_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
 	[p3_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
-	[p4_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
+		
 	[p5_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
 	[p6_green] s_pb2=PB_DEACTIVATE  -> 0.2: (s_pb2'=PB_ACTIVATE) + 0.8: (s_pb2'=PB_DEACTIVATE);
 
+	[p4_red] s_pb2=PB_ACTIVATE -> (s_pb2'=PB_DEACTIVATE)
+	
 	[p7_1_red] s_pb2=PB_DEACTIVATE  -> (s_pb2'=PB_DEACTIVATE);
 	[p7_1_red] s_pb2=PB_ACTIVATE  -> (s_pb2'=PB_DEACTIVATE);
+
+	[p7_2_red] s_pb2=PB_DEACTIVATE  -> (s_pb2'=PB_DEACTIVATE);
+	[p7_2_red] s_pb2=PB_ACTIVATE  -> (s_pb2'=PB_DEACTIVATE);
+
+	[p7_3_red] s_pb2=PB_DEACTIVATE  -> (s_pb2'=PB_DEACTIVATE);
+	[p7_3_red] s_pb2=PB_ACTIVATE  -> (s_pb2'=PB_DEACTIVATE);	
 endmodule
 
 module pb3
@@ -327,11 +393,19 @@ module pb3
 	s_pb3: [0..2] init PB_DEACTIVATE;
 	[p1_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
 	[p2_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
-	[p23_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
+	[p3_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
 	[p4_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
-	[p5_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
+		
 	[p6_green] s_pb3=PB_DEACTIVATE  -> 0.2: (s_pb3'=PB_ACTIVATE) + 0.8: (s_pb3'=PB_DEACTIVATE);
 
+	[p5_red] s_pb3=PB_ACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
+
 	[p7_1_red] s_pb3=PB_DEACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
-	[p7_1_red] s_pb3=PB_ACTIVATE  -> (s_pb2'=PB_DEACTIVATE);
+	[p7_1_red] s_pb3=PB_ACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
+
+	[p7_2_red] s_pb3=PB_DEACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
+	[p7_2_red] s_pb3=PB_ACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
+
+	[p7_3_red] s_pb3=PB_DEACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
+	[p7_3_red] s_pb3=PB_ACTIVATE  -> (s_pb3'=PB_DEACTIVATE);
 endmodule
