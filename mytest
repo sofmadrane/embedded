@@ -112,7 +112,6 @@ module phase_5
 endmodule
 
 module phase_6
-	// TODO
 	s_phase_6: [0..5] init PHASE_DEACTIVATE;
 	[p2_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & s_pb1 & (!s_pb2 & !s_pb3) & !s_fire -> (s_phase_6'=PHASE_ORANGE);
 	[p2_finish] s_phase_6=PHASE_DEACTIVATE & s_phase_2=PHASE_FINISH & !s_pb1 | (s_pb2 | s_pb3) | s_fire  -> (s_phase_6'=PHASE_DEACTIVATE);
