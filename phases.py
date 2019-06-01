@@ -548,13 +548,15 @@ class Phase7_2(DefaultPhase):
         # DONE
         # p2 finish
         if self.state == _PHASE_DEACTIVATE and self.manager.p2.state == _PHASE_FINISH and \
-                ((self.manager.pb1 and self.manager.pb2) or (self.manager.pb2 and self.manager.pb3) or
-                 (self.manager.pb1 and self.manager.pb3)) and not self.manager.f.state:
+                ((self.manager.pb1.state and self.manager.pb2.state) or
+                 (self.manager.pb2.state and self.manager.pb3.state) or
+                 (self.manager.pb1.state and self.manager.pb3.state)) and \
+                not self.manager.f.state:
             self.state = _PHASE_ORANGE
             return
         # p5 finish
         if self.state == _PHASE_DEACTIVATE and self.manager.p5.state == _PHASE_FINISH and \
-                (self.manager.pb1 and self.manager.pb2) and not self.manager.f.state:
+                (self.manager.pb1.state and self.manager.pb2.state) and not self.manager.f.state:
             self.state = _PHASE_ORANGE
             return
         # p7_2 red
@@ -580,6 +582,7 @@ class Phase7_2(DefaultPhase):
         self.manager.p3.update_self()
         self.manager.p82.update_self()
         return
+
 
 class Phase7_3(DefaultPhase):
     def __init__(self, init_state=_PHASE_DEACTIVATE):
@@ -611,13 +614,15 @@ class Phase7_3(DefaultPhase):
         # DONE
         # p3 finish
         if self.state == _PHASE_DEACTIVATE and self.manager.p3.state == _PHASE_FINISH and \
-                ((self.manager.pb1 and self.manager.pb2) or (self.manager.pb2 and self.manager.pb3) or
-                 (self.manager.pb1 and self.manager.pb3)) and not self.manager.f.state:
+                ((self.manager.pb1.state and self.manager.pb2.state) or
+                 (self.manager.pb2.state and self.manager.pb3.state) or
+                 (self.manager.pb1.state and self.manager.pb3.state)) \
+                and not self.manager.f.state:
             self.state = _PHASE_ORANGE
             return
         # p6 finish
         if self.state == _PHASE_DEACTIVATE and self.manager.p6.state == _PHASE_FINISH and \
-                (self.manager.pb2 and self.manager.pb3) and not self.manager.f.state:
+                (self.manager.pb2.state and self.manager.pb3.state) and not self.manager.f.state:
             self.state = _PHASE_ORANGE
             return
         # p7_3 red

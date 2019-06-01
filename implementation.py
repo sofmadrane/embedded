@@ -215,12 +215,12 @@ class Intersection:
 
     def tl_state_to_symbol(self, state):
         if state == _TL_GREEN: return "O"
-        if state == _TL_ORANGE: return "~"
+        if state == _TL_ORANGE: return "+"
         if state == _TL_RED: return "X"
 
     def pl_state_to_symbol(self, state):
         if state == _TL_GREEN: return "o"
-        if state == _TL_ORANGE: return "~"
+        if state == _TL_ORANGE: return "+"
         if state == _TL_RED: return "x"
 
     def pb_state_to_symbol(self, state):
@@ -308,7 +308,7 @@ def main():
         current_phase.update_self()
 
         # TODO call current_phase.activate_next_phase()
-        current_phase.activate_next_phase()
+        # current_phase.activate_next_phase()
 
         # TODO Set the current phase to the possibly new current phase
         current_phase = manager.get_current_phase()

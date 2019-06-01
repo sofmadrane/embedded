@@ -23,14 +23,14 @@ class Firemen:
         self.manager = None
 
     def needs_to_cross(self):
-        return np.random.choice([True, False], 1, p=[0.02, 0.98])
+        return np.random.choice([True, False], 1, p=[0.1, 0.9])
 
     def update_self(self):
         # DONE
         # p1_green
         if self.state == _NO:
             if self.needs_to_cross():
-                self.state = _PB_ACTIVATE
+                self.state = _YES
             return
 
         if self.state == _YES and (self.manager.p81.state == _PHASE_RED or
