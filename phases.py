@@ -31,7 +31,6 @@ class Phase1(DefaultPhase):
 
     def update_related_traffic_lights(self):
         # DONE
-        # tl1 not impacted by p1
         self.manager.tl1.update_self()
         self.manager.tl2.update_self()
         self.manager.tl3.update_self()
@@ -83,11 +82,11 @@ class Phase1(DefaultPhase):
         # none
         if self.state == _PHASE_GREEN:
             self.state = _PHASE_FINISH
-            self.activate_next_phase()
             return
         # p1 finish
         if self.state == _PHASE_FINISH:
             self.state = _PHASE_DEACTIVATE
+            self.activate_next_phase()
             return
 
     def activate_next_phase(self):
@@ -105,7 +104,6 @@ class Phase2(DefaultPhase):
 
     def update_related_traffic_lights(self):
         # DONE
-        # tl1 not impacted by p1
         self.manager.tl1.update_self()
         self.manager.tl2.update_self()
         self.manager.tl3.update_self()
@@ -130,20 +128,20 @@ class Phase2(DefaultPhase):
         # DONE
         # p1 finish
         if self.state == _PHASE_DEACTIVATE and self.manager.p1.state == _PHASE_FINISH and not self.manager.pb3 and \
-                not (self.manager.pb1 and self.manager.pb3) and not self.manager.f:
-            self.state = _PHASE_ORANGE
-            return
-        # p4 finish
-        if self.state == _PHASE_DEACTIVATE and self.manager.p6.state == _PHASE_FINISH and not self.manager.pb2 and \
-                not self.manager.f:
+                not (self.manager.pb2 and self.manager.pb1) and not self.manager.f:
             self.state = _PHASE_ORANGE
             return
         # p81 finish
-        if self.state == _PHASE_DEACTIVATE and self.manager.p83.state == _PHASE_FINISH and not self.manager.pb2:
+        if self.state == _PHASE_DEACTIVATE and self.manager.p81.state == _PHASE_FINISH and not self.manager.pb3:
+            self.state = _PHASE_ORANGE
+            return
+        # p4 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p4.state == _PHASE_FINISH and not self.manager.pb3 and \
+                not self.manager.f:
             self.state = _PHASE_ORANGE
             return
         # p71 finish
-        if self.state == _PHASE_DEACTIVATE and self.manager.p73.state == _PHASE_FINISH and not self.manager.f:
+        if self.state == _PHASE_DEACTIVATE and self.manager.p71.state == _PHASE_FINISH and not self.manager.f:
             self.state = _PHASE_ORANGE
             return
         # p2 red
@@ -157,11 +155,11 @@ class Phase2(DefaultPhase):
         # none
         if self.state == _PHASE_GREEN:
             self.state = _PHASE_FINISH
-            self.activate_next_phase()
             return
         # p2 finish
         if self.state == _PHASE_FINISH:
             self.state = _PHASE_DEACTIVATE
+            self.activate_next_phase()
             return
 
     def activate_next_phase(self):
@@ -170,4 +168,198 @@ class Phase2(DefaultPhase):
         self.manager.p6.update_self()
         self.manager.p72.update_self()
         self.manager.p82.update_self()
+        return
+
+
+class Phase7_1(DefaultPhase):
+    def __init__(self, init_state=_PHASE_DEACTIVATE):
+        DefaultPhase.__init__(self, init_state)
+
+    def update_related_traffic_lights(self):
+        # DONE
+        self.manager.tl1.update_self()
+        self.manager.tl2.update_self()
+        self.manager.tl3.update_self()
+        self.manager.tl4.update_self()
+        self.manager.tl5.update_self()
+        self.manager.tl6.update_self()
+        self.manager.tl7.update_self()
+
+    def update_related_pedestrian_lights(self):
+        # DONE
+        self.manager.pl1.update_self()
+        self.manager.pl2.update_self()
+        self.manager.pl3.update_self()
+
+    def update_related_push_buttons(self):
+        # DONE
+        self.manager.pb1.update_self()
+        self.manager.pb2.update_self()
+        self.manager.pb3.update_self()
+
+    def update_self(self):
+        # DONE
+        # p1 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p1.state == _PHASE_FINISH and \
+                ((self.manager.pb1 and self.manager.pb2) or (self.manager.pb2 and self.manager.pb3) or
+                 (self.manager.pb1 and self.manager.pb3)) and not self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p4 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p4.state == _PHASE_FINISH and \
+                (self.manager.pb1 and self.manager.pb3) and not self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p7_1 red
+        if self.state == _PHASE_ORANGE:
+            self.state = _PHASE_RED
+            return
+        # p7_1 green
+        if self.state == _PHASE_RED:
+            self.state = _PHASE_GREEN
+            return
+        # none
+        if self.state == _PHASE_GREEN:
+            self.state = _PHASE_FINISH
+            return
+        # p7_1 finish
+        if self.state == _PHASE_FINISH:
+            self.state = _PHASE_DEACTIVATE
+            self.activate_next_phase()
+            return
+
+    def activate_next_phase(self):
+        # DONE
+        self.manager.p1.update_self()
+        self.manager.p83.update_self()
+        return
+
+
+class Phase8_1(DefaultPhase):
+    def __init__(self, init_state=_PHASE_DEACTIVATE):
+        DefaultPhase.__init__(self, init_state)
+
+    def update_related_traffic_lights(self):
+        # DONE
+        self.manager.tl1.update_self()
+        self.manager.tl2.update_self()
+        self.manager.tl3.update_self()
+        self.manager.tl4.update_self()
+        self.manager.tl5.update_self()
+        self.manager.tl6.update_self()
+        self.manager.tl7.update_self()
+
+    def update_related_pedestrian_lights(self):
+        # DONE
+        self.manager.pl1.update_self()
+        self.manager.pl2.update_self()
+        self.manager.pl3.update_self()
+
+    def update_related_push_buttons(self):
+        # DONE
+        self.manager.pb1.update_self()
+        self.manager.pb2.update_self()
+        self.manager.pb3.update_self()
+
+    def update_self(self):
+        # DONE
+        # p1 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p1.state == _PHASE_FINISH and self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p4 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p4.state == _PHASE_FINISH and self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p7_1 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p71.state == _PHASE_FINISH and self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p8_1 red
+        if self.state == _PHASE_ORANGE:
+            self.state = _PHASE_RED
+            return
+        # p8_1 green
+        if self.state == _PHASE_RED:
+            self.state = _PHASE_GREEN
+            return
+        # none
+        if self.state == _PHASE_GREEN:
+            self.state = _PHASE_FINISH
+            return
+        # p8_1 finish
+        if self.state == _PHASE_FINISH:
+            self.state = _PHASE_DEACTIVATE
+            self.activate_next_phase()
+            return
+
+    def activate_next_phase(self):
+        # DONE
+        self.manager.p2.update_self()
+        self.manager.p5.update_self()
+        return
+
+
+class Phase8_3(DefaultPhase):
+    def __init__(self, init_state=_PHASE_DEACTIVATE):
+        DefaultPhase.__init__(self, init_state)
+
+    def update_related_traffic_lights(self):
+        # DONE
+        self.manager.tl1.update_self()
+        self.manager.tl2.update_self()
+        self.manager.tl3.update_self()
+        self.manager.tl4.update_self()
+        self.manager.tl5.update_self()
+        self.manager.tl6.update_self()
+        self.manager.tl7.update_self()
+
+    def update_related_pedestrian_lights(self):
+        # DONE
+        self.manager.pl1.update_self()
+        self.manager.pl2.update_self()
+        self.manager.pl3.update_self()
+
+    def update_related_push_buttons(self):
+        # DONE
+        self.manager.pb1.update_self()
+        self.manager.pb2.update_self()
+        self.manager.pb3.update_self()
+
+    def update_self(self):
+        # DONE
+        # p3 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p3.state == _PHASE_FINISH and self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p6 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p6.state == _PHASE_FINISH and self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # p7_3 finish
+        if self.state == _PHASE_DEACTIVATE and self.manager.p73.state == _PHASE_FINISH and self.manager.f:
+            self.state = _PHASE_ORANGE
+            return
+        # 8_3 red
+        if self.state == _PHASE_ORANGE:
+            self.state = _PHASE_RED
+            return
+        # p8_3 green
+        if self.state == _PHASE_RED:
+            self.state = _PHASE_GREEN
+            return
+        # none
+        if self.state == _PHASE_GREEN:
+            self.state = _PHASE_FINISH
+            return
+        # p8_3 finish
+        if self.state == _PHASE_FINISH:
+            self.state = _PHASE_DEACTIVATE
+            self.activate_next_phase()
+            return
+
+    def activate_next_phase(self):
+        # DONE
+        self.manager.p1.update_self()
+        self.manager.p4.update_self()
         return
