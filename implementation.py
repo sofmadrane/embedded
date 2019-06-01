@@ -1,8 +1,8 @@
 """Implémentation du modèle Prism"""
-import numpy as np
-# Pycharm says there's an error here, it's a Pycharm bug
-#from sync_singleton_container import *
-import fileinput
+from embedded.phases import *
+from embedded.trafficlights import *
+from embedded.pushbuttons import *
+from embedded.pedestrianlights import *
 
 # Constants
 _TL_RED = 0
@@ -20,43 +20,6 @@ _PHASE_ORANGE = 1
 _PHASE_RED = 2
 _PHASE_GREEN = 3
 _PHASE_FINISH = 4
-
-
-# This is an abstract class, never directly instantiate from this!
-# Contains the part of the state and behaviour shared by all Phases
-class DefaultPhase:
-    def __init__(self, init_state):
-        self.state = init_state
-        self.manager = None
-
-    def is_activated(self):
-        return self.state != _PHASE_DEACTIVATE
-
-
-class Phase1(DefaultPhase):
-    def __init__(self, init_state=_PHASE_DEACTIVATE):
-        DefaultPhase.__init__(self, init_state)
-
-    def update_related_traffic_lights(self):
-        # TODO
-        self.manager.p1.state = 0
-        x = 1
-
-    def update_related_pedstrian_lights(self):
-        # TODO
-        x = 1
-
-    def update_related_push_buttons(self):
-        # TODO
-        x = 1
-
-    def update_self(self):
-        # TODO: update self.state depending on the state of the push buttons.
-        x = 1
-
-    def activate_next_phase(self):
-        # TODO: either (return self) or (return next phase and deactivate self)
-        x = 1
 
 
 class TrafficLight1:
@@ -90,7 +53,7 @@ class Firemen:
     def update_self(self):
         self.state = False
 
-# TODO class Phase_x (x in 2 to 8_2)
+# TODO class Phase_x (x in 2 to 8_3)
 
 # TODO class Traffic_light_x (x in 1 to 7)
 
@@ -102,7 +65,7 @@ class Firemen:
 
 
 class IntersectionManager:
-    def __init__(self, p1, p2, p3, p4, p5, p6, p71, p72, p81, p82, tl1, tl2, tl3, tl4, tl5, tl6, tl7, pb1, pb2, pb3, pl1, pl2, pl3, f):
+    def __init__(self, p1, p2, p3, p4, p5, p6, p71, p72, p73, p81, p82, p83, tl1, tl2, tl3, tl4, tl5, tl6, tl7, pb1, pb2, pb3, pl1, pl2, pl3, f):
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
@@ -111,8 +74,10 @@ class IntersectionManager:
         self.p6 = p6
         self.p71 = p71
         self.p72 = p72
+        self.p73 = p73
         self.p81 = p81
         self.p82 = p82
+        self.p83 = p83
 
         self.tl1 = tl1
         self.tl2 = tl2
@@ -132,9 +97,24 @@ class IntersectionManager:
 
         self.f = f
 
+    def get_current_phase(self):
+        if self.p1.state == _PHASE_ORANGE: return self.p1
+        if self.p2.state == _PHASE_ORANGE: return self.p2
+        if self.p3.state == _PHASE_ORANGE: return self.p3
+        if self.p4.state == _PHASE_ORANGE: return self.p4
+        if self.p5.state == _PHASE_ORANGE: return self.p5
+        if self.p6.state == _PHASE_ORANGE: return self.p6
+        if self.p71.state == _PHASE_ORANGE: return self.p71
+        if self.p72.state == _PHASE_ORANGE: return self.p72
+        if self.p73.state == _PHASE_ORANGE: return self.p73
+        if self.p81.state == _PHASE_ORANGE: return self.p81
+        if self.p82.state == _PHASE_ORANGE: return self.p82
+        if self.p83.state == _PHASE_ORANGE: return self.p83
+
 
 class Intersection:
-    def __init__(self):
+    def __init__(self, manager):
+        self.manager = manager
         self.phase_1 = 0
         self.phase_2 = 0
         self.phase_3 = 0
@@ -143,8 +123,10 @@ class Intersection:
         self.phase_6 = 0
         self.phase_7_1 = 0
         self.phase_7_2 = 0
+        self.phase_7_3 = 0
         self.phase_8_1 = 0
         self.phase_8_2 = 0
+        self.phase_8_3 = 0
 
         self.tl_1 = 0
         self.tl_2 = 0
@@ -241,7 +223,7 @@ def main():
     while continue_loop:
 
         # Continue loop condition update every 5 loops
-        inter.print_state()
+
         if counter % 5 == 0:
             line = input("Enter to continue, or press n to stop: ")
             if line == "n":
@@ -251,16 +233,25 @@ def main():
         # TODO update all push_buttons probabilistically
 
         # TODO call current_phase.update_self
+        current_phase.update_self()
 
-        # TODO call current_phase = current_phase.get_next_phase() -> can return either the current or next phase
+        # TODO call current_phase.activate_next_phase()
+        current_phase.activate_next_phase()
+
+        # TODO Set the current phase to the possibly new current phase
+        current_phase = IntersectionManager.get_current_phase()
 
         # TODO call current_phase.update_related_push_buttons() (as some need to be deactivated)
+        current_phase.update_related_push_buttons()
 
         # TODO call current_phase.update_related_traffic_lights()
+        current_phase.update_related_traffic_lights()
 
         # TODO call current_phase.update_related_pedestrian_lights()
+        current_phase.update_related_pedestrian_lights()
 
         # TODO print the current state of the intersection
+        inter.print_state()
 
 
 if __name__ == '__main__':
