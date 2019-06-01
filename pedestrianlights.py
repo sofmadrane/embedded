@@ -49,12 +49,12 @@ class PedestrianLight1:
             self.state = _TL_GREEN
             return
         # p7_2_green
-        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p72.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p7_3_green
-        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p73.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p8_1_red
@@ -63,6 +63,10 @@ class PedestrianLight1:
             return
         # p8_2_red
         if self.state == _TL_GREEN and self.manager.p82.state == _PHASE_RED:
+            self.state = _TL_RED
+            return
+        # p8_3_red
+        if self.state == _TL_GREEN and self.manager.p83.state == _PHASE_RED:
             self.state = _TL_RED
             return
 
@@ -100,12 +104,12 @@ class PedestrianLight2:
             self.state = _TL_GREEN
             return
         # p7_2_green
-        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p72.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p7_3_green
-        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p73.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p8_1_red
@@ -114,6 +118,10 @@ class PedestrianLight2:
             return
         # p8_2_red
         if self.state == _TL_GREEN and self.manager.p82.state == _PHASE_RED:
+            self.state = _TL_RED
+            return
+        # p8_3_red
+        if self.state == _TL_GREEN and self.manager.p83.state == _PHASE_RED:
             self.state = _TL_RED
             return
 
@@ -151,12 +159,12 @@ class PedestrianLight3:
             self.state = _TL_GREEN
             return
         # p7_2_green
-        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p72.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p7_3_green
-        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p73.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p8_1_red
@@ -165,5 +173,9 @@ class PedestrianLight3:
             return
         # p8_2_red
         if self.state == _TL_GREEN and self.manager.p82.state == _PHASE_RED:
+            self.state = _TL_RED
+            return
+        # p8_3_red
+        if self.state == _TL_GREEN and self.manager.p83.state == _PHASE_RED:
             self.state = _TL_RED
             return
