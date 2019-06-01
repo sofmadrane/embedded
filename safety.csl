@@ -1,0 +1,16 @@
+P>=1 [ G s_tl1=TL_GREEN=>(s_tl4=TL_RED&s_tl5=TL_RED&s_pl1=TL_RED&s_pl2=TL_RED&s_tl7=TL_RED) ]
+
+P>=1 [ G s_tl4=TL_GREEN=>(s_tl1=TL_RED&s_tl5=TL_RED&s_pl1=TL_RED&s_pl3=TL_RED&s_tl7=TL_RED) ]
+
+P>=1 [ G s_tl5=TL_GREEN=>(s_tl1=TL_RED&s_tl4=TL_RED&s_pl2=TL_RED&s_pl3=TL_RED&s_tl7=TL_RED) ]
+
+P>=1 [ G s_tl2=TL_GREEN=>(s_pl3=TL_RED&s_tl7=TL_RED) ]
+
+P>=1 [ G s_tl3=TL_GREEN=>(s_pl3=TL_RED&s_pl2=TL_RED&s_tl7=TL_RED) ]
+
+P>=1 [ G s_tl6=TL_GREEN=>(s_pl1=TL_RED&s_pl2=TL_RED&s_tl7=TL_RED) ]
+
+P>=1 [ G s_tl7=TL_GREEN=>(s_pl1=TL_RED&s_pl2=TL_RED&s_pl3=TL_RED&s_tl1=TL_RED&s_tl2=TL_RED&s_tl3=TL_RED&s_tl4=TL_RED&s_tl5=TL_RED&s_tl6=TL_RED) ]
+
+P<=0 [ F "deadlock" ]
+
