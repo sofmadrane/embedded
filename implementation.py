@@ -3,6 +3,7 @@ from phases import *
 from trafficlights import *
 from pushbuttons import *
 from pedestrianlights import *
+from firemen import *
 
 # Constants
 _TL_RED = 0
@@ -21,38 +22,6 @@ _PHASE_RED = 2
 _PHASE_GREEN = 3
 _PHASE_FINISH = 4
 
-
-class TrafficLight1:
-    def __init__(self, init_state=_TL_RED):
-        self.state = init_state
-
-    def update_self(self):
-        self.state = _TL_RED
-
-
-class PedestrianLight1:
-    def __init__(self, init_state=_TL_RED):
-        self.state = init_state
-
-    def update_self(self):
-        self.state = _TL_RED
-
-
-class PushButton1:
-    def __init__(self, init_state=_PB_DEACTIVATE):
-        self.state = init_state
-
-    def update_self(self):
-        self.state = _PB_DEACTIVATE
-
-
-class Firemen:
-    def __init__(self, init_state=False):
-        self.state = init_state
-
-    def update_self(self):
-        self.state = False
-
 # TODO class Phase_x (x in 2 to 8_3)
 
 # TODO class Traffic_light_x (x in 1 to 7)
@@ -62,6 +31,40 @@ class Firemen:
 # TODO class Push_Button_x (x in 1 to 3)
 
 # TODO class Fire_Men (only one)
+
+
+def addManagerToObjects(manager, p1, p2, p3, p4, p5, p6, p71, p72, p73, p81, p82, p83, tl1, tl2, tl3, tl4, tl5, tl6, tl7, pb1, pb2
+                 , pb3, pl1, pl2, pl3, f):
+    p1.manager = manager
+    p2.manager = manager
+    p3.manager = manager
+    p4.manager = manager
+    p5.manager = manager
+    p6.manager = manager
+    p71.manager = manager
+    p72.manager = manager
+    p73.manager = manager
+    p81.manager = manager
+    p82.manager = manager
+    p83.manager = manager
+
+    tl1.manager = manager
+    tl2.manager = manager
+    tl3.manager = manager
+    tl4.manager = manager
+    tl5.manager = manager
+    tl6.manager = manager
+    tl7.manager = manager
+
+    pl1.manager = manager
+    pl2.manager = manager
+    pl3.manager = manager
+
+    pb1.manager = manager
+    pb2.manager = manager
+    pb3.manager = manager
+
+    f.manager = manager
 
 
 class IntersectionManager:
@@ -112,75 +115,108 @@ class IntersectionManager:
         if self.p82.state != _PHASE_DEACTIVATE: return self.p82
         if self.p83.state != _PHASE_DEACTIVATE: return self.p83
 
+    def get_current_phase_id(self):
+        if self.p1.state != _PHASE_DEACTIVATE: return "1  "
+        if self.p2.state != _PHASE_DEACTIVATE: return "2  "
+        if self.p3.state != _PHASE_DEACTIVATE: return "3  "
+        if self.p4.state != _PHASE_DEACTIVATE: return "4  "
+        if self.p5.state != _PHASE_DEACTIVATE: return "5  "
+        if self.p6.state != _PHASE_DEACTIVATE: return "6  "
+        if self.p71.state != _PHASE_DEACTIVATE: return "7.1"
+        if self.p72.state != _PHASE_DEACTIVATE: return "7.2"
+        if self.p73.state != _PHASE_DEACTIVATE: return "7.3"
+        if self.p81.state != _PHASE_DEACTIVATE: return "8.1"
+        if self.p82.state != _PHASE_DEACTIVATE: return "8.2"
+        if self.p83.state != _PHASE_DEACTIVATE: return "8.3"
+
+
+def show_detailed_path(manager, step):
+    line = str(step)+"\t"
+    line += "\t| " + str(manager.p1.state)
+    line += "\t\t| " + str(manager.p2.state)
+    line += "\t\t| " + str(manager.p3.state)
+    line += "\t\t| " + str(manager.p4.state)
+
+    line += "\t\t| " + str(manager.p5.state)
+    line += "\t\t| " + str(manager.p6.state)
+    line += "\t\t| " + str(manager.p71.state)
+    line += "\t\t| " + str(manager.p72.state)
+
+    line += "\t\t| " + str(manager.p73.state)
+    line += "\t\t| " + str(manager.p81.state)
+    line += "\t\t| " + str(manager.p82.state)
+    line += "\t\t| " + str(manager.p83.state)
+
+    line += "\t\t| " + str(manager.tl1.state)
+    line += "\t\t| " + str(manager.tl2.state)
+    line += "\t\t| " + str(manager.tl3.state)
+    line += "\t\t| " + str(manager.tl4.state)
+    line += "\t\t| " + str(manager.tl5.state)
+    line += "\t\t| " + str(manager.tl6.state)
+    line += "\t\t| " + str(manager.tl7.state)
+
+    line += "\t\t| " + str(manager.pl1.state)
+    line += "\t\t| " + str(manager.pl2.state)
+    line += "\t\t| " + str(manager.pl3.state)
+
+    line += "\t\t| " + str(manager.pb1.state)
+    line += "\t\t| " + str(manager.pb2.state)
+    line += "\t\t| " + str(manager.pb3.state)
+
+    line += "\t\t| " + str(manager.f.state)
+
+    return line
+
+def show_detailed_path_colnames():
+    print( "Step\tP_1\t\tP_2\t\tP_3\t\tP_4\t\tP_5\t\tP_6\t\tP_7.1\tP_7.2\tP_7.3\tP_8.1\tP_8.2\tP_8.3\tTL_1\tTL_2\tTL_3\tTL_4\tTL_5\tTL_6\tTL_7\tPL_1\tPL_2\tPL_3\tPB_1\tPB_2\tPB_3\tFiremen")
+
 
 class Intersection:
     def __init__(self, manager):
         self.manager = manager
-        self.phase_1 = 0
-        self.phase_2 = 0
-        self.phase_3 = 0
-        self.phase_4 = 0
-        self.phase_5 = 0
-        self.phase_6 = 0
-        self.phase_7_1 = 0
-        self.phase_7_2 = 0
-        self.phase_7_3 = 0
-        self.phase_8_1 = 0
-        self.phase_8_2 = 0
-        self.phase_8_3 = 0
-
-        self.tl_1 = 0
-        self.tl_2 = 0
-        self.tl_3 = 0
-        self.tl_4 = 0
-        self.tl_5 = 0
-        self.tl_6 = 0
-        self.tl_7 = 0
-
-        self.pl_1 = _TL_GREEN
-        self.pl_2 = _TL_GREEN
-        self.pl_3 = _TL_RED
-
-        self.pb_1 = 0
-        self.pb_2 = 0
-        self.pb_3 = 0
-
-        self.fire = False
 
     def print_state(self):
-        pl_1_symbol = self.pl_state_to_symbol(self.pl_1)
-        pl_2_symbol = self.pl_state_to_symbol(self.pl_2)
-        pl_3_symbol = self.pl_state_to_symbol(self.pl_3)
+        pl_1_symbol = self.pl_state_to_symbol(self.manager.pl1.state)
+        pl_2_symbol = self.pl_state_to_symbol(self.manager.pl2.state)
+        pl_3_symbol = self.pl_state_to_symbol(self.manager.pl3.state)
 
-        pb_1_symbol = self.pb_state_to_symbol(self.pb_1)
-        pb_2_symbol = self.pb_state_to_symbol(self.pb_2)
-        pb_3_symbol = self.pb_state_to_symbol(self.pb_3)
+        pb_1_symbol = self.pb_state_to_symbol(self.manager.pb1.state)
+        pb_2_symbol = self.pb_state_to_symbol(self.manager.pb2.state)
+        pb_3_symbol = self.pb_state_to_symbol(self.manager.pb3.state)
 
-        fire_symbol = self.fire_to_symbol(self.fire)
+        tl_1_symbol = self.tl_state_to_symbol(self.manager.tl1.state)
+        tl_2_symbol = self.tl_state_to_symbol(self.manager.tl2.state)
+        tl_3_symbol = self.tl_state_to_symbol(self.manager.tl3.state)
+        tl_4_symbol = self.tl_state_to_symbol(self.manager.tl4.state)
+        tl_5_symbol = self.tl_state_to_symbol(self.manager.tl5.state)
+        tl_6_symbol = self.tl_state_to_symbol(self.manager.tl6.state)
+        tl_7_symbol = self.tl_state_to_symbol(self.manager.tl7.state)
+
+        fire_symbol = self.fire_to_symbol(self.manager.f.state)
 
         # TODO do the traffic lights to symbol but la flemme pour le moment
 
         intersection_representation = "######################################################\n"
         intersection_representation += "################# " + fire_symbol + " ###################\n"
 
-        intersection_representation += "_________________|               |____________________\n"
-        intersection_representation += "                =                = X        ←         \n"
-        intersection_representation += "                =                = X        ←         \n"
-        intersection_representation += "- - - - - - -  ["+pl_3_symbol+","+pb_3_symbol+"]              ["+pl_1_symbol+","+pb_1_symbol+"] - - - - - - - - - \n"
-        intersection_representation += "         →    X =                =                    \n"
-        intersection_representation += "_________↴____X_=                =____________________\n"
-        intersection_representation += "                 | || ||["+pl_2_symbol+","+pb_2_symbol+"]|| || |                    \n"
-        intersection_representation += "                 |       |  X  X |                    \n"
-        intersection_representation += "                 |       |       |                    \n"
+        intersection_representation += "_________________|      ["+tl_7_symbol+"]       |____________________\n"
+        intersection_representation += "                =                = "+tl_2_symbol+"        ←         \n"
+        intersection_representation += "                =                = "+tl_1_symbol+"        ←         \n"
+        intersection_representation += "- - - - - - -  ["+pl_3_symbol+","+pb_3_symbol+"]              ["+pl_1_symbol+","+pb_1_symbol+"] - - - - - - - -\n"
+        intersection_representation += "         →    "+tl_4_symbol+" =                =                    \n"
+        intersection_representation += "_________↴____"+tl_3_symbol+"_=                =_____________________\n"
+        intersection_representation += "                 ||| ||["+pl_2_symbol+","+pb_2_symbol+"]|| |||                    \n"
+        intersection_representation += "                 |       |  "+tl_5_symbol+"  "+tl_6_symbol+" |                    \n"
+        intersection_representation += "   PHASE "+self.manager.get_current_phase_id()+"     |       |       |                    \n"
         intersection_representation += "                 |       |  ↰  ↱ |                    \n"
         intersection_representation += "                 |       |       |                    \n"
 
         print(intersection_representation)
 
     def tl_state_to_symbol(self, state):
-        if state == _TL_GREEN: return "OO"
-        if state == _TL_ORANGE: return "~~"
-        if state == _TL_RED: return "XX"
+        if state == _TL_GREEN: return "O"
+        if state == _TL_ORANGE: return "~"
+        if state == _TL_RED: return "X"
 
     def pl_state_to_symbol(self, state):
         if state == _TL_GREEN: return "o"
@@ -200,6 +236,7 @@ def main():
 
     continue_loop = True
     counter = 0
+    path = []
 
     # TODO init all phases, traffic lights, pedestrian lights, push buttons
     phase_1 = Phase1(_PHASE_ORANGE)
@@ -223,6 +260,16 @@ def main():
     traff_light_6 = TrafficLight6()
     traff_light_7 = TrafficLight7()
 
+    push_button_1 = PushButton1()
+    push_button_2 = PushButton2()
+    push_button_3 = PushButton3()
+
+    ped_lights_1 = PedestrianLight1()
+    ped_lights_2 = PedestrianLight2()
+    ped_lights_3 = PedestrianLight3()
+
+    firemen = Firemen()
+
     # TODO set first phase's state to _PHASE_ORANGE. All other phases are in state _PHASE_DEACTIVATE.
     # TODO set all traffic lights' states and pedestrian lights to _TL_RED, push-buttons to _PB_DEACTIVATE
 
@@ -231,19 +278,28 @@ def main():
 
     manager = IntersectionManager(phase_1, phase_2, phase_3, phase_4, phase_5, phase_6, phase_7_1, phase_7_2, phase_7_3,
                                   phase_8_1, phase_8_2, phase_8_3, traff_light_1, traff_light_2, traff_light_3,
-                                  traff_light_4, traff_light_5, traff_light_6, traff_light_7)
+                                  traff_light_4, traff_light_5, traff_light_6, traff_light_7, push_button_1,
+                                  push_button_2, push_button_3, ped_lights_1, ped_lights_2, ped_lights_3, firemen)
 
-    inter = Intersection()
+    addManagerToObjects(manager, phase_1, phase_2, phase_3, phase_4, phase_5, phase_6, phase_7_1, phase_7_2, phase_7_3,
+                        phase_8_1, phase_8_2, phase_8_3, traff_light_1, traff_light_2, traff_light_3,
+                        traff_light_4, traff_light_5, traff_light_6, traff_light_7, push_button_1,
+                        push_button_2, push_button_3, ped_lights_1, ped_lights_2, ped_lights_3, firemen)
+
+    inter = Intersection(manager)
     inter.print_state()
+
+    path.append(show_detailed_path(manager, counter))
 
     while continue_loop:
 
+
         # Continue loop condition update every 5 loops
 
-        if counter % 5 == 0:
-            line = input("Enter to continue, or press n to stop: ")
-            if line == "n":
-                continue_loop = False
+        #if counter % 5 == 0:
+        line = input("Enter to continue, or press n to stop: ")
+        if line == "n":
+            continue_loop = False
         counter += 1
 
         # TODO update all push_buttons probabilistically
@@ -255,7 +311,7 @@ def main():
         current_phase.activate_next_phase()
 
         # TODO Set the current phase to the possibly new current phase
-        current_phase = IntersectionManager.get_current_phase()
+        current_phase = manager.get_current_phase()
 
         # TODO call current_phase.update_related_push_buttons() (as some need to be deactivated)
         current_phase.update_related_push_buttons()
@@ -268,6 +324,11 @@ def main():
 
         # TODO print the current state of the intersection
         inter.print_state()
+
+        show_detailed_path_colnames()
+        path.append(show_detailed_path(manager, counter))
+        for i in range(abs(counter - 10), counter):
+            print(path[i])
 
 
 if __name__ == '__main__':

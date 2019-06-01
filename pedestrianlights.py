@@ -24,37 +24,37 @@ class PedestrianLight1:
     def update_self(self):
         # DONE
         # p1_red
-        if self.state == _TL_GREEN and self.manager.p1.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p1.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p2_red
-        if self.state == _TL_GREEN and self.manager.p2.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p2.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p3_red
-        if self.state == _TL_GREEN and self.manager.p3.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p3.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p4_red
-        if self.state == _TL_GREEN and self.manager.p4.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p4.state == _PHASE_RED:
             self.state = _TL_RED
             return
 
         # p6_green
-        if self.state == _TL_RED and self.manager.p6.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p6.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p7_1_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p7_2_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p7_3_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p8_1_red
@@ -75,37 +75,37 @@ class PedestrianLight2:
     def update_self(self):
         # DONE
         # p1_red
-        if self.state == _TL_GREEN and self.manager.p1.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p1.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p2_red
-        if self.state == _TL_GREEN and self.manager.p2.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p2.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p3_red
-        if self.state == _TL_GREEN and self.manager.p3.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p3.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p4_green
-        if self.state == _TL_RED and self.manager.p4.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p4.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p5_red
-        if self.state == _TL_GREEN and self.manager.p5.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p5.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p7_1_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p7_2_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p7_3_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p8_1_red
@@ -126,37 +126,37 @@ class PedestrianLight3:
     def update_self(self):
         # DONE
         # p1_red
-        if self.state == _TL_GREEN and self.manager.p1.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p1.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p2_red
-        if self.state == _TL_GREEN and self.manager.p2.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p2.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p3_red
-        if self.state == _TL_GREEN and self.manager.p3.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p3.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p5_green
-        if self.state == _TL_RED and self.manager.p5.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p5.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p6_red
-        if self.state == _TL_GREEN and self.manager.p6.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p6.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p7_1_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p7_2_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
 
         # p7_3_green
-        if self.state == _TL_RED and self.manager.p71.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p71.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p8_1_red

@@ -175,11 +175,11 @@ class TrafficLight4:
     def update_self(self):
         # DONE
         # p1_green
-        if self.state == _TL_RED and self.manager.p1.state == _TL_GREEN:
+        if self.state == _TL_RED and self.manager.p1.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
         # p2_red
-        if self.state == _TL_GREEN and self.manager.p2.state == _TL_RED:
+        if self.state == _TL_GREEN and self.manager.p2.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p4_green
@@ -258,7 +258,7 @@ class TrafficLight6:
             return
 
             # p5_green
-        if self.state == _PHASE_RED and self.manager.p5.state == _TL_GREEN:
+        if self.state == _PHASE_RED and self.manager.p5.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
             # p6_red
