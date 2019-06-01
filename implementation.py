@@ -1,8 +1,8 @@
 """Implémentation du modèle Prism"""
-from embedded.phases import *
-from embedded.trafficlights import *
-from embedded.pushbuttons import *
-from embedded.pedestrianlights import *
+from phases import *
+from trafficlights import *
+from pushbuttons import *
+from pedestrianlights import *
 
 # Constants
 _TL_RED = 0
@@ -65,7 +65,8 @@ class Firemen:
 
 
 class IntersectionManager:
-    def __init__(self, p1, p2, p3, p4, p5, p6, p71, p72, p73, p81, p82, p83, tl1, tl2, tl3, tl4, tl5, tl6, tl7, pb1, pb2, pb3, pl1, pl2, pl3, f):
+    def __init__(self, p1, p2, p3, p4, p5, p6, p71, p72, p73, p81, p82, p83, tl1, tl2, tl3, tl4, tl5, tl6, tl7, pb1, pb2
+                 , pb3, pl1, pl2, pl3, f):
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
@@ -98,18 +99,18 @@ class IntersectionManager:
         self.f = f
 
     def get_current_phase(self):
-        if self.p1.state == _PHASE_ORANGE: return self.p1
-        if self.p2.state == _PHASE_ORANGE: return self.p2
-        if self.p3.state == _PHASE_ORANGE: return self.p3
-        if self.p4.state == _PHASE_ORANGE: return self.p4
-        if self.p5.state == _PHASE_ORANGE: return self.p5
-        if self.p6.state == _PHASE_ORANGE: return self.p6
-        if self.p71.state == _PHASE_ORANGE: return self.p71
-        if self.p72.state == _PHASE_ORANGE: return self.p72
-        if self.p73.state == _PHASE_ORANGE: return self.p73
-        if self.p81.state == _PHASE_ORANGE: return self.p81
-        if self.p82.state == _PHASE_ORANGE: return self.p82
-        if self.p83.state == _PHASE_ORANGE: return self.p83
+        if self.p1.state != _PHASE_DEACTIVATE: return self.p1
+        if self.p2.state != _PHASE_DEACTIVATE: return self.p2
+        if self.p3.state != _PHASE_DEACTIVATE: return self.p3
+        if self.p4.state != _PHASE_DEACTIVATE: return self.p4
+        if self.p5.state != _PHASE_DEACTIVATE: return self.p5
+        if self.p6.state != _PHASE_DEACTIVATE: return self.p6
+        if self.p71.state != _PHASE_DEACTIVATE: return self.p71
+        if self.p72.state != _PHASE_DEACTIVATE: return self.p72
+        if self.p73.state != _PHASE_DEACTIVATE: return self.p73
+        if self.p81.state != _PHASE_DEACTIVATE: return self.p81
+        if self.p82.state != _PHASE_DEACTIVATE: return self.p82
+        if self.p83.state != _PHASE_DEACTIVATE: return self.p83
 
 
 class Intersection:
@@ -209,13 +210,28 @@ def main():
     phase_6 = Phase6(_PHASE_DEACTIVATE)
     phase_7_1 = Phase7_1(_PHASE_DEACTIVATE)
     phase_7_2 = Phase7_2(_PHASE_DEACTIVATE)
+    phase_7_3 = Phase7_3(_PHASE_DEACTIVATE)
     phase_8_1 = Phase8_1(_PHASE_DEACTIVATE)
     phase_8_2 = Phase8_2(_PHASE_DEACTIVATE)
+    phase_8_3 = Phase8_3(_PHASE_DEACTIVATE)
+
+    traff_light_1 = TrafficLight1()
+    traff_light_2 = TrafficLight2()
+    traff_light_3 = TrafficLight3()
+    traff_light_4 = TrafficLight4()
+    traff_light_5 = TrafficLight5()
+    traff_light_6 = TrafficLight6()
+    traff_light_7 = TrafficLight7()
+
     # TODO set first phase's state to _PHASE_ORANGE. All other phases are in state _PHASE_DEACTIVATE.
     # TODO set all traffic lights' states and pedestrian lights to _TL_RED, push-buttons to _PB_DEACTIVATE
 
     # TODO set current_phase to the first one
     current_phase = phase_1
+
+    manager = IntersectionManager(phase_1, phase_2, phase_3, phase_4, phase_5, phase_6, phase_7_1, phase_7_2, phase_7_3,
+                                  phase_8_1, phase_8_2, phase_8_3, traff_light_1, traff_light_2, traff_light_3,
+                                  traff_light_4, traff_light_5, traff_light_6, traff_light_7)
 
     inter = Intersection()
     inter.print_state()
