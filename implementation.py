@@ -1,8 +1,8 @@
 """Implémentation du modèle Prism"""
-import numpy as np
-# Pycharm says there's an error here, it's a Pycharm bug
-from sync_singleton_container import *
-import fileinput
+from embedded.phases import *
+from embedded.trafficlights import *
+from embedded.pushbuttons import *
+from embedded.pedestrianlights import *
 
 # Constants
 _TL_RED = 0
@@ -22,41 +22,38 @@ _PHASE_GREEN = 3
 _PHASE_FINISH = 4
 
 
-# This is an abstract class, never directly instantiate from this!
-# Contains the part of the state and behaviour shared by all Phases
-class DefaultPhase:
-    def __init__(self, init_state):
+class TrafficLight1:
+    def __init__(self, init_state=_TL_RED):
         self.state = init_state
 
-    def is_activated(self):
-        return self.state != _PHASE_DEACTIVATE
+    def update_self(self):
+        self.state = _TL_RED
 
 
-class Phase1(DefaultPhase):
-    def __init__(self, init_state=_PHASE_DEACTIVATE):
-        DefaultPhase.__init__(self, init_state)
-
-    def update_related_traffic_lights(self):
-        # TODO
-        x = 1
-
-    def update_related_pedstrian_lights(self):
-        # TODO
-        x = 1
-
-    def update_related_push_buttons(self):
-        # TODO
-        x = 1
+class PedestrianLight1:
+    def __init__(self, init_state=_TL_RED):
+        self.state = init_state
 
     def update_self(self):
-        # TODO: update self.state depending on the state of the push buttons.
-        x = 1
+        self.state = _TL_RED
 
-    def activate_next_phase(self):
-        # TODO: either (return self) or (return next phase and deactivate self)
-        x = 1
 
-# TODO class Phase_x (x in 2 to 8_2)
+class PushButton1:
+    def __init__(self, init_state=_PB_DEACTIVATE):
+        self.state = init_state
+
+    def update_self(self):
+        self.state = _PB_DEACTIVATE
+
+
+class Firemen:
+    def __init__(self, init_state=False):
+        self.state = init_state
+
+    def update_self(self):
+        self.state = False
+
+# TODO class Phase_x (x in 2 to 8_3)
 
 # TODO class Traffic_light_x (x in 1 to 7)
 
@@ -67,8 +64,57 @@ class Phase1(DefaultPhase):
 # TODO class Fire_Men (only one)
 
 
+class IntersectionManager:
+    def __init__(self, p1, p2, p3, p4, p5, p6, p71, p72, p73, p81, p82, p83, tl1, tl2, tl3, tl4, tl5, tl6, tl7, pb1, pb2, pb3, pl1, pl2, pl3, f):
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+        self.p4 = p4
+        self.p5 = p5
+        self.p6 = p6
+        self.p71 = p71
+        self.p72 = p72
+        self.p73 = p73
+        self.p81 = p81
+        self.p82 = p82
+        self.p83 = p83
+
+        self.tl1 = tl1
+        self.tl2 = tl2
+        self.tl3 = tl3
+        self.tl4 = tl4
+        self.tl5 = tl5
+        self.tl6 = tl6
+        self.tl7 = tl7
+
+        self.pl1 = pl1
+        self.pl2 = pl2
+        self.pl3 = pl3
+
+        self.pb1 = pb1
+        self.pb2 = pb2
+        self.pb3 = pb3
+
+        self.f = f
+
+    def get_current_phase(self):
+        if self.p1.state == _PHASE_ORANGE: return self.p1
+        if self.p2.state == _PHASE_ORANGE: return self.p2
+        if self.p3.state == _PHASE_ORANGE: return self.p3
+        if self.p4.state == _PHASE_ORANGE: return self.p4
+        if self.p5.state == _PHASE_ORANGE: return self.p5
+        if self.p6.state == _PHASE_ORANGE: return self.p6
+        if self.p71.state == _PHASE_ORANGE: return self.p71
+        if self.p72.state == _PHASE_ORANGE: return self.p72
+        if self.p73.state == _PHASE_ORANGE: return self.p73
+        if self.p81.state == _PHASE_ORANGE: return self.p81
+        if self.p82.state == _PHASE_ORANGE: return self.p82
+        if self.p83.state == _PHASE_ORANGE: return self.p83
+
+
 class Intersection:
-    def __init__(self):
+    def __init__(self, manager):
+        self.manager = manager
         self.phase_1 = 0
         self.phase_2 = 0
         self.phase_3 = 0
@@ -77,8 +123,10 @@ class Intersection:
         self.phase_6 = 0
         self.phase_7_1 = 0
         self.phase_7_2 = 0
+        self.phase_7_3 = 0
         self.phase_8_1 = 0
         self.phase_8_2 = 0
+        self.phase_8_3 = 0
 
         self.tl_1 = 0
         self.tl_2 = 0
@@ -89,52 +137,62 @@ class Intersection:
         self.tl_7 = 0
 
         self.pl_1 = _TL_GREEN
-        self.pl_2 = 0
+        self.pl_2 = _TL_GREEN
         self.pl_3 = _TL_RED
 
         self.pb_1 = 0
         self.pb_2 = 0
         self.pb_3 = 0
 
-        self.fire = True
+        self.fire = False
 
     def print_state(self):
+        pl_1_symbol = self.pl_state_to_symbol(self.pl_1)
+        pl_2_symbol = self.pl_state_to_symbol(self.pl_2)
+        pl_3_symbol = self.pl_state_to_symbol(self.pl_3)
+
+        pb_1_symbol = self.pb_state_to_symbol(self.pb_1)
+        pb_2_symbol = self.pb_state_to_symbol(self.pb_2)
+        pb_3_symbol = self.pb_state_to_symbol(self.pb_3)
+
+        fire_symbol = self.fire_to_symbol(self.fire)
+
+        # TODO do the traffic lights to symbol but la flemme pour le moment
 
         intersection_representation = "######################################################\n"
-        fire_symbol = self.fire_to_symbol(self.fire)
-        #                              "################# FIREMEN INCOMING ###################"
         intersection_representation += "################# " + fire_symbol + " ###################\n"
-        pl_1_symbol = self.pl_state_to_symbol(self.pl_1)
-        pl_3_symbol = self.pl_state_to_symbol(self.pl_3)
-        intersection_representation += "_________________|       "+pl_1_symbol+"       |___________________\n"
-        intersection_representation += "                                                      \n"
-        intersection_representation += "                                                      \n"
-        intersection_representation += "_________________                 ____________________\n"
-        intersection_representation += "               | |       "+pl_3_symbol+"       | |                  \n"
-        intersection_representation += "               | |               | |                  \n"
-        intersection_representation += "               | |               | |                  \n"
-        intersection_representation += "               | |               | |                  \n"
-        intersection_representation += "               | |               | |                  \n"
+
+        intersection_representation += "_________________|               |____________________\n"
+        intersection_representation += "                =                = X        ←         \n"
+        intersection_representation += "                =                = X        ←         \n"
+        intersection_representation += "- - - - - - -  ["+pl_3_symbol+","+pb_3_symbol+"]              ["+pl_1_symbol+","+pb_1_symbol+"] - - - - - - - - - \n"
+        intersection_representation += "         →    X =                =                    \n"
+        intersection_representation += "_________↴____X_=                =____________________\n"
+        intersection_representation += "                 | || ||["+pl_2_symbol+","+pb_2_symbol+"]|| || |                    \n"
+        intersection_representation += "                 |       |  X  X |                    \n"
+        intersection_representation += "                 |       |       |                    \n"
+        intersection_representation += "                 |       |  ↰  ↱ |                    \n"
+        intersection_representation += "                 |       |       |                    \n"
 
         print(intersection_representation)
 
     def tl_state_to_symbol(self, state):
         if state == _TL_GREEN: return "OO"
-        if state == _TL_ORANGE: return "=="
+        if state == _TL_ORANGE: return "~~"
         if state == _TL_RED: return "XX"
 
     def pl_state_to_symbol(self, state):
         if state == _TL_GREEN: return "o"
-        if state == _TL_ORANGE: return "="
+        if state == _TL_ORANGE: return "~"
         if state == _TL_RED: return "x"
 
     def pb_state_to_symbol(self, state):
-        if state == _PB_ACTIVATE: return "!!"
+        if state == _PB_ACTIVATE: return "!"
         if state == _PB_DEACTIVATE: return "?"
 
     def fire_to_symbol(self, state):
         if state: return "FIREMEN INCOMING"
-        if state: return "                "
+        else: return "               "
 
 
 def main():
@@ -144,6 +202,15 @@ def main():
 
     # TODO init all phases, traffic lights, pedestrian lights, push buttons
     phase_1 = Phase1(_PHASE_ORANGE)
+    phase_2 = Phase2(_PHASE_DEACTIVATE)
+    phase_3 = Phase3(_PHASE_DEACTIVATE)
+    phase_4 = Phase4(_PHASE_DEACTIVATE)
+    phase_5 = Phase5(_PHASE_DEACTIVATE)
+    phase_6 = Phase6(_PHASE_DEACTIVATE)
+    phase_7_1 = Phase7_1(_PHASE_DEACTIVATE)
+    phase_7_2 = Phase7_2(_PHASE_DEACTIVATE)
+    phase_8_1 = Phase8_1(_PHASE_DEACTIVATE)
+    phase_8_2 = Phase8_2(_PHASE_DEACTIVATE)
     # TODO set first phase's state to _PHASE_ORANGE. All other phases are in state _PHASE_DEACTIVATE.
     # TODO set all traffic lights' states and pedestrian lights to _TL_RED, push-buttons to _PB_DEACTIVATE
 
@@ -156,7 +223,7 @@ def main():
     while continue_loop:
 
         # Continue loop condition update every 5 loops
-        print(str(counter))
+
         if counter % 5 == 0:
             line = input("Enter to continue, or press n to stop: ")
             if line == "n":
@@ -166,16 +233,25 @@ def main():
         # TODO update all push_buttons probabilistically
 
         # TODO call current_phase.update_self
+        current_phase.update_self()
 
-        # TODO call current_phase = current_phase.get_next_phase() -> can return either the current or next phase
+        # TODO call current_phase.activate_next_phase()
+        current_phase.activate_next_phase()
+
+        # TODO Set the current phase to the possibly new current phase
+        current_phase = IntersectionManager.get_current_phase()
 
         # TODO call current_phase.update_related_push_buttons() (as some need to be deactivated)
+        current_phase.update_related_push_buttons()
 
         # TODO call current_phase.update_related_traffic_lights()
+        current_phase.update_related_traffic_lights()
 
         # TODO call current_phase.update_related_pedestrian_lights()
+        current_phase.update_related_pedestrian_lights()
 
         # TODO print the current state of the intersection
+        inter.print_state()
 
 
 if __name__ == '__main__':
