@@ -132,38 +132,38 @@ class IntersectionManager:
 
 def show_detailed_path(manager, step):
     line = str(step)+"\t"
-    line += "\t| " + str(manager.p1.state)
-    line += "\t\t| " + str(manager.p2.state)
-    line += "\t\t| " + str(manager.p3.state)
-    line += "\t\t| " + str(manager.p4.state)
+    line += "\t " + str(manager.p1.state)
+    line += "\t\t " + str(manager.p2.state)
+    line += "\t\t " + str(manager.p3.state)
+    line += "\t\t " + str(manager.p4.state)
 
-    line += "\t\t| " + str(manager.p5.state)
-    line += "\t\t| " + str(manager.p6.state)
-    line += "\t\t| " + str(manager.p71.state)
-    line += "\t\t| " + str(manager.p72.state)
+    line += "\t\t " + str(manager.p5.state)
+    line += "\t\t " + str(manager.p6.state)
+    line += "\t\t " + str(manager.p71.state)
+    line += "\t\t " + str(manager.p72.state)
 
-    line += "\t\t| " + str(manager.p73.state)
-    line += "\t\t| " + str(manager.p81.state)
-    line += "\t\t| " + str(manager.p82.state)
-    line += "\t\t| " + str(manager.p83.state)
+    line += "\t\t " + str(manager.p73.state)
+    line += "\t\t " + str(manager.p81.state)
+    line += "\t\t " + str(manager.p82.state)
+    line += "\t\t " + str(manager.p83.state)
 
-    line += "\t\t| " + str(manager.tl1.state)
-    line += "\t\t| " + str(manager.tl2.state)
-    line += "\t\t| " + str(manager.tl3.state)
-    line += "\t\t| " + str(manager.tl4.state)
-    line += "\t\t| " + str(manager.tl5.state)
-    line += "\t\t| " + str(manager.tl6.state)
-    line += "\t\t| " + str(manager.tl7.state)
+    line += "\t\t " + str(manager.tl1.state)
+    line += "\t\t " + str(manager.tl2.state)
+    line += "\t\t " + str(manager.tl3.state)
+    line += "\t\t " + str(manager.tl4.state)
+    line += "\t\t " + str(manager.tl5.state)
+    line += "\t\t " + str(manager.tl6.state)
+    line += "\t\t " + str(manager.tl7.state)
 
-    line += "\t\t| " + str(manager.pl1.state)
-    line += "\t\t| " + str(manager.pl2.state)
-    line += "\t\t| " + str(manager.pl3.state)
+    line += "\t\t " + str(manager.pl1.state)
+    line += "\t\t " + str(manager.pl2.state)
+    line += "\t\t " + str(manager.pl3.state)
 
-    line += "\t\t| " + str(manager.pb1.state)
-    line += "\t\t| " + str(manager.pb2.state)
-    line += "\t\t| " + str(manager.pb3.state)
+    line += "\t\t " + str(manager.pb1.state)
+    line += "\t " + str(manager.pb2.state)
+    line += "\t " + str(manager.pb3.state)
 
-    line += "\t\t| " + str(manager.f.state)
+    line += "\t " + str(manager.f.state)
 
     return line
 
@@ -327,7 +327,7 @@ def main():
 
         show_detailed_path_colnames()
         path.append(show_detailed_path(manager, counter))
-        for i in range(abs(counter - 10), counter):
+        for i in range(max((counter-10), 0), counter):
             print(path[i])
 
 
