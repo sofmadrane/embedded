@@ -1,0 +1,12 @@
+P>=1 [G s_tl7=TL_GREEN => (s_pl1=TL_RED & s_pl2=TL_RED & s_pl3=TL_RED) ]
+
+P>=1 [G ((s_fire=PB_ACTIVATE) & (s_phase_1=PHASE_GREEN | s_phase_2=PHASE_GREEN | s_phase_3=PHASE_GREEN)) => ( X ( X (s_phase_8_1=PHASE_ORANGE | s_phase_8_2=PHASE_ORANGE | s_phase_8_3=PHASE_ORANGE ) ) ) ]
+
+P>=1 [G  ((s_fire=PB_ACTIVATE)  & ( s_pb1=PB_ACTIVATE | s_pb2=PB_ACTIVATE | s_pb3=PB_ACTIVATE)) => ( X ( X (s_phase_8_1=PHASE_RED | s_phase_8_2=PHASE_RED | s_phase_8_3=PHASE_RED ) ) ) ]
+
+P>=1 [G ((s_fire=PB_ACTIVATE) & (s_phase_4=PHASE_GREEN | s_phase_5=PHASE_GREEN | s_phase_6=PHASE_GREEN)) => ( X ( X (s_phase_8_1=PHASE_ORANGE | s_phase_8_2=PHASE_ORANGE | s_phase_8_3=PHASE_ORANGE ) ) ) ]
+
+P>=1 [G  ((s_fire=PB_ACTIVATE) & (s_phase_7_1=PHASE_GREEN | s_phase_7_2=PHASE_GREEN | s_phase_7_3=PHASE_GREEN)) => ( X ( X (s_phase_8_1=PHASE_ORANGE | s_phase_8_2=PHASE_ORANGE | s_phase_8_3=PHASE_ORANGE ) ) ) ]
+
+P>=1 [G  ((s_fire=PB_ACTIVATE)  & ( s_pb1=PB_ACTIVATE | s_pb2=PB_ACTIVATE | s_pb3=PB_ACTIVATE) & (s_phase_1=PHASE_GREEN)) => ( X ( X (s_phase_8_1=PHASE_ORANGE | s_phase_8_2=PHASE_DEACTIVATE | s_phase_8_3=PHASE_DEACTIVATE ) ) ) ]
+
