@@ -176,6 +176,9 @@ class Intersection:
     def __init__(self, manager):
         self.manager = manager
         self.OKBLUE = '\033[94m'
+        self.OKGREEN = '\033[92m'
+        self.OKYELLOW = '\033[93m'
+        self.OKRED = '\033[91m'
         self.ENDC = '\033[0m'
         self.BOLD = '\033[1m'
 
@@ -212,7 +215,7 @@ class Intersection:
         intersection_representation += "                 || ||[ "+pl_2_symbol+","+pb_2_symbol+"]|| ||                    \n"
         intersection_representation += "                 |       |  "+tl_5_symbol+"  "+tl_6_symbol+" |                    \n"
         intersection_representation += "   PHASE "+self.manager.get_current_phase_id()+"     |       |       |                    \n"
-        intersection_representation += "                 |       |  ↰  ↱ |                    \n"
+        intersection_representation += "   "+self.p_state_to_symbol(self.manager.get_current_phase().state)+"   |       |  ↰  ↱ |                    \n"
         intersection_representation += "                 |       |       |                    \n"
 
         print(intersection_representation)
@@ -230,6 +233,13 @@ class Intersection:
     def pb_state_to_symbol(self, state):
         if state == _PB_ACTIVATE: return self.OKBLUE+self.BOLD+"!!"+self.ENDC
         if state == _PB_DEACTIVATE: return " ?"
+
+    def p_state_to_symbol(self, state):
+        if state == _PHASE_RED: return self.OKRED+"red        "+self.ENDC
+        if state == _PHASE_DEACTIVATE: return "deactivated"
+        if state == _PHASE_ORANGE: return self.OKYELLOW+"orange     "+self.ENDC
+        if state == _PHASE_GREEN: return self.OKGREEN+"green      "+self.ENDC
+        if state == _PHASE_FINISH: return self.BOLD+"finished   "+self.ENDC
 
     def fire_to_symbol(self, state):
         if state: return self.OKBLUE+"FIREMEN INCOMING"+self.ENDC
