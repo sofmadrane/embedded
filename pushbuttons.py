@@ -22,7 +22,7 @@ class DefaultPushButton:
         self.manager = None
 
     def is_pressed(self):
-        return np.random.choice([True, False], 1, p=[0.4, 0.6])
+        return np.random.choice([True, False], 1, p=[0.2, 0.8])
 
 
 class PushButton1(DefaultPushButton):
@@ -156,7 +156,7 @@ class PushButton3(DefaultPushButton):
             if self.is_pressed():
                 self.state = _PB_ACTIVATE
             return
-        # p5_green
+        # p5_red
         if self.state == _PB_ACTIVATE and self.manager.p5.state == _PHASE_RED:
             self.state = _PB_DEACTIVATE
             return

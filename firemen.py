@@ -23,7 +23,7 @@ class Firemen:
         self.manager = None
 
     def needs_to_cross(self):
-        return np.random.choice([True, False], 1, p=[0.6, 0.4])
+        return np.random.choice([True, False], 1, p=[0.1, 0.9])
 
     def update_self(self):
         # DONE
