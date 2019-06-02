@@ -262,7 +262,7 @@ class TrafficLight6:
             return
 
             # p5_green
-        if self.state == _PHASE_RED and self.manager.p5.state == _PHASE_GREEN:
+        if self.state == _TL_RED and self.manager.p5.state == _PHASE_GREEN:
             self.state = _TL_GREEN
             return
             # p6_red
