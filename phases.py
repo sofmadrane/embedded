@@ -295,7 +295,7 @@ class Phase4(DefaultPhase):
             return
         # p6 finish
         if self.state == _PHASE_DEACTIVATE and self.manager.p6.state == _PHASE_FINISH and self.manager.pb2.state and \
-                self.manager.pb3.state and not self.manager.f.state:
+                not self.manager.pb3.state and not self.manager.f.state:
             self.state = _PHASE_ORANGE
             return
         # p8_3 finish

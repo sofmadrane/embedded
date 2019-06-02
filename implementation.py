@@ -172,8 +172,12 @@ def show_detailed_path_colnames():
 
 
 class Intersection:
+
     def __init__(self, manager):
         self.manager = manager
+        self.OKBLUE = '\033[94m'
+        self.ENDC = '\033[0m'
+        self.BOLD = '\033[1m'
 
     def print_state(self):
         pl_1_symbol = self.pl_state_to_symbol(self.manager.pl1.state)
@@ -202,10 +206,10 @@ class Intersection:
         intersection_representation += "_________________|      ["+tl_7_symbol+"]       |____________________\n"
         intersection_representation += "                =                = "+tl_2_symbol+"        ←         \n"
         intersection_representation += "                =                = "+tl_1_symbol+"        ←         \n"
-        intersection_representation += "- - - - - - -  ["+pl_3_symbol+","+pb_3_symbol+"]              ["+pl_1_symbol+","+pb_1_symbol+"] - - - - - - - -\n"
+        intersection_representation += "- - - - - - ["+pl_3_symbol+","+pb_3_symbol+"]               ["+pl_1_symbol+","+pb_1_symbol+"] - - - - - - - -\n"
         intersection_representation += "         →    "+tl_4_symbol+" =                =                    \n"
         intersection_representation += "_________↴____"+tl_3_symbol+"_=                =_____________________\n"
-        intersection_representation += "                 ||| ||["+pl_2_symbol+","+pb_2_symbol+"]|| |||                    \n"
+        intersection_representation += "                 || ||[ "+pl_2_symbol+","+pb_2_symbol+"]|| ||                    \n"
         intersection_representation += "                 |       |  "+tl_5_symbol+"  "+tl_6_symbol+" |                    \n"
         intersection_representation += "   PHASE "+self.manager.get_current_phase_id()+"     |       |       |                    \n"
         intersection_representation += "                 |       |  ↰  ↱ |                    \n"
@@ -214,21 +218,21 @@ class Intersection:
         print(intersection_representation)
 
     def tl_state_to_symbol(self, state):
-        if state == _TL_GREEN: return "O"
+        if state == _TL_GREEN: return self.OKBLUE+self.BOLD+"O"+self.ENDC
         if state == _TL_ORANGE: return "+"
         if state == _TL_RED: return "X"
 
     def pl_state_to_symbol(self, state):
-        if state == _TL_GREEN: return "o"
+        if state == _TL_GREEN: return self.OKBLUE+self.BOLD+"o"+self.ENDC
         if state == _TL_ORANGE: return "+"
         if state == _TL_RED: return "x"
 
     def pb_state_to_symbol(self, state):
-        if state == _PB_ACTIVATE: return "!"
-        if state == _PB_DEACTIVATE: return "?"
+        if state == _PB_ACTIVATE: return self.OKBLUE+self.BOLD+"!!"+self.ENDC
+        if state == _PB_DEACTIVATE: return " ?"
 
     def fire_to_symbol(self, state):
-        if state: return "FIREMEN INCOMING"
+        if state: return self.OKBLUE+"FIREMEN INCOMING"+self.ENDC
         else: return "               "
 
 
@@ -296,7 +300,7 @@ def main():
 
         # Continue loop condition update every 5 loops
 
-        #if counter % 5 == 0:
+        # if counter % 5 == 0:
         line = input("Enter to continue, or press n to stop: ")
         if line == "n":
             continue_loop = False
@@ -330,7 +334,7 @@ def main():
 
         show_detailed_path_colnames()
         path.append(show_detailed_path(manager, counter))
-        for i in range(max((counter-10), 0), counter):
+        for i in range(max((counter-10), 0), counter+1):
             print(path[i])
 
 
