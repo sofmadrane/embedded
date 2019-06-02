@@ -211,10 +211,6 @@ class TrafficLight5:
         if self.state == _TL_GREEN and self.manager.p1.state == _PHASE_RED:
             self.state = _TL_RED
             return
-        # p2_green
-        if self.state == _TL_RED and self.manager.p2.state == _PHASE_GREEN:
-            self.state = _TL_GREEN
-            return
         # p3_green
         if self.state == _TL_RED and self.manager.p3.state == _PHASE_GREEN:
             self.state = _TL_GREEN
@@ -223,8 +219,16 @@ class TrafficLight5:
         if self.state == _TL_GREEN and self.manager.p4.state == _PHASE_RED:
             self.state = _TL_RED
             return
+        # p6_green
+        if self.state == _TL_RED and self.manager.p6.state == _PHASE_GREEN:
+            self.state = _TL_GREEN
+            return
         # p7_1_red
         if self.state == _TL_GREEN and self.manager.p71.state == _PHASE_RED:
+            self.state = _TL_RED
+            return
+        # p7_3_red
+        if self.state == _TL_GREEN and self.manager.p73.state == _PHASE_RED:
             self.state = _TL_RED
             return
         # p8_3_red

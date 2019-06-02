@@ -321,6 +321,9 @@ def main():
 
         # TODO call current_phase.update_related_pedestrian_lights()
         current_phase.update_related_pedestrian_lights()
+        
+        # call current_phase.update_related_firemen()
+        current_phase.update_related_firemen()
 
         # TODO print the current state of the intersection
         inter.print_state()

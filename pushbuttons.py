@@ -22,7 +22,7 @@ class DefaultPushButton:
         self.manager = None
 
     def is_pressed(self):
-        return np.random.choice([True, False], 1, p=[0.2, 0.8])
+        return np.random.choice([True, False], 1, p=[0.4, 0.6])
 
 
 class PushButton1(DefaultPushButton):
