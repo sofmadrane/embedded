@@ -197,7 +197,7 @@ class Intersection:
         # TODO do the traffic lights to symbol but la flemme pour le moment
 
         intersection_representation = "######################################################\n"
-        intersection_representation += "################# " + fire_symbol + " ###################\n"
+        intersection_representation += "################# ["+fire_symbol+"] ###################\n"
 
         intersection_representation += "_________________|      ["+tl_7_symbol+"]       |____________________\n"
         intersection_representation += "                =                = "+tl_2_symbol+"        ←         \n"

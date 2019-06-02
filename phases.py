@@ -50,6 +50,9 @@ class Phase1(DefaultPhase):
         self.manager.pb1.update_self()
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
+    
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
 
     def update_self(self):
         # DONE
@@ -124,6 +127,9 @@ class Phase2(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p1 finish
@@ -196,6 +202,9 @@ class Phase3(DefaultPhase):
         self.manager.pb1.update_self()
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
+
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
 
     def update_self(self):
         # DONE
@@ -270,6 +279,9 @@ class Phase4(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p3 finish
@@ -343,6 +355,9 @@ class Phase5(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p1 finish
@@ -351,7 +366,7 @@ class Phase5(DefaultPhase):
             self.state = _PHASE_ORANGE
             return
         # p81 finish
-        if self.state == _PHASE_DEACTIVATE and self.manager.p81.state == _PHASE_FINISH and self.manager.pb3:
+        if self.state == _PHASE_DEACTIVATE and self.manager.p81.state == _PHASE_FINISH and self.manager.pb3.state:
             self.state = _PHASE_ORANGE
             return
         # p4 finish
@@ -410,6 +425,9 @@ class Phase6(DefaultPhase):
         self.manager.pb1.update_self()
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
+
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
 
     def update_self(self):
         # DONE
@@ -480,6 +498,9 @@ class Phase7_1(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p1 finish
@@ -543,6 +564,9 @@ class Phase7_2(DefaultPhase):
         self.manager.pb1.update_self()
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
+
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
 
     def update_self(self):
         # DONE
@@ -610,6 +634,9 @@ class Phase7_3(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p3 finish
@@ -676,6 +703,9 @@ class Phase8_1(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p1 finish
@@ -741,6 +771,9 @@ class Phase8_2(DefaultPhase):
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
 
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
+
     def update_self(self):
         # DONE
         # p2 finish
@@ -805,6 +838,9 @@ class Phase8_3(DefaultPhase):
         self.manager.pb1.update_self()
         self.manager.pb2.update_self()
         self.manager.pb3.update_self()
+
+    def update_related_firemen(self) :
+        self.manager.f.update_self()
 
     def update_self(self):
         # DONE
